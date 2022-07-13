@@ -28,7 +28,7 @@ void jogabomba(int n){
         //Essas variáveis geram valores aleatórios, nos quais as bombas serão colocadas.
         l = rand() % 10;
         c = rand() % 20;
-        if(jogo[l][c].eBomba == 0){
+        if(jogo[l][c].bomba == 0){
             tabuleiro[l][c].bomba = 1;
         } else {
             /*Caso o algoritmo coloque duas bombas no mesmo lugar esse teste reduzirá o contador em um
@@ -37,6 +37,7 @@ void jogabomba(int n){
         }
     }
 }
+
 void main(){
     ComeçarJogo();
     jogabomba(40);
