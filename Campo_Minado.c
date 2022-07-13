@@ -49,11 +49,6 @@ int coordenadaValida(int l, int c) {
 }
 //Função que retorna quantas bombas estão próximas
 int bombasProximas(int l, int c) {
-    /*  l - 1 e c
-        l + 1 e c
-        l e c + 1
-        l e c - 1
-    */
     int ndebombas = 0;
     if (coordenadaValida(l-1, c) && tabuleiro[l-1][c].bomba)
         ndebombas++;
