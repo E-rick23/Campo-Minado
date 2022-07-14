@@ -7,7 +7,7 @@ struct Celula{
     int proximos; // 0 a 4
 };
 
-Celula tabuleiro[10][20];
+struct Celula tabuleiro[10][20];
 
 int l, c;
 
