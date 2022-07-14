@@ -68,9 +68,41 @@ void contarBombas(){
         }
     }
 }
+
+//Função que imprime o jogo
+void imprimir(){
+    printf("\n\n\t    ");
+    for(l = 0; l < 10; l++)
+        printf(" %d  ",l); //Indices das colunas
+    printf("\n\t   ---------------------------------------------\n");
+    for(l = 0; l < 10; l++){
+        printf("\t%d  |", l); //Indices das linhas
+        for(c = 0; c<20; c++){
+            if(tabuleiro[l][c].livre){
+                if(tabuleiro[l][c].bomba){
+                    printf(" * ");
+                } else {
+                    printf(" %d ", tabuleiro[l][c].proximos);
+                }
+            } else {
+                printf("   ");
+            }
+            printf("|");
+        }
+        printf("\n\t   ---------------------------------------------\n");
+    }
+}
+//Função que lê as coordenadas
+void iniciarjogo(){
+
+}
 void main(){
     int qdebomba = 40;
     iniciarTabuleiro();
     jogabomba(qdebomba);
     contarBombas();
+    printf("\n\t\t\tCampo Minado\n");
+    imprimir();
+    
+
 }
