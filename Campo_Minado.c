@@ -93,9 +93,35 @@ void imprimir(){
         printf("\n\t   ---------------------------------------------\n");
     }
 }
+
+//Função recursiva que abre a casa nas coordenadas que o usuário digitar
+void abralapuerta(int linha, int coluna){
+    if(tabuleiro[linha][coluna].livre == 0 && coordenadaValida(linha, coluna) == 1){
+        tabuleiro[linha][coluna].livre = 1;
+        if(tabuleiro[linha][coluna].proximos == 0){
+            abralapuerta(l-1, c); //Cima
+            abralapuerta(l+1, c); //Baixo
+            abralapuerta(l, c+1); //Direita
+            abralapuerta(l, c-1); //Esquerda
+            abralapuerta(l-1, c-1); //Diagonal superior esquerda
+            abralapuerta(l-1, c+1); //Diagonal superior direita
+            abralapuerta(l+1, c-1); //Diagonal inferior esquerda
+            abralapuerta(l+1, c+1); //Diagonal inferior direita
+        }
+    }
+}
+
 //Função que lê as coordenadas
 void iniciarjogo(){
+    int coordenadal, coordenadac;
+    do{
+        printf("Digite a linha e coluna: ");
+        scanf("%d%d", &coordenadal, &coordenadac);
+        if(coordenadaValida(coordenadal, coordenadac) == 0);
+            printf("\nCoordenada Inválida!");
+    } while(coordenadaValida(coordenadal, coordenadac) == 0 || tabuleiro[coordenadal][coordenadac].livre == 1);
 
+    abralapuerta(coordenadal, coordenadac);
 }
 void main(){
     int qdebomba = 40;
@@ -104,6 +130,5 @@ void main(){
     contarBombas();
     printf("\n\t\t\tCampo Minado\n");
     imprimir();
-    
-
+    printf("\n");
 }
