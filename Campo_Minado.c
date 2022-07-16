@@ -59,6 +59,14 @@ int quantMinasProximas(int l, int c){
         ndeMinas++;
     if(tabuleiro[l][c-1].temMina && casaValida(l, c - 1))
         ndeMinas++;
+    if(tabuleiro[l-1][c-1].temMina && casaValida(l - 1, c-1))
+        ndeMinas++;
+    if(tabuleiro[l+1][c-1].temMina && casaValida(l + 1, c-1))
+        ndeMinas++;
+    if(tabuleiro[l-1][c+1].temMina && casaValida(l-1, c + 1))
+        ndeMinas++;
+    if(tabuleiro[l][c+1].temMina && casaValida(l+1, c + 1))
+        ndeMinas++;
     return ndeMinas;
 }
 
@@ -142,6 +150,18 @@ void abrirCelula(int l, int c){
             abrirCelula(l+1, c); //Casa abaixo
             abrirCelula(l, c+1); //Casa a direita
             abrirCelula(l, c-1); //Casa a esquerda
+            if(tabuleiro[l-1][c-1].temMina == 0){
+                abrirCelula(l-1, c-1); //Diagonal superior esquerda
+            }
+            if(tabuleiro[l-1][c+1].temMina == 0){
+                abrirCelula(l-1, c+1); //Diagonal superior direita
+            }
+            if(tabuleiro[l+1][c-1].temMina == 0){
+                abrirCelula(l+1, c-1); //Diagonal inferior esquerda
+            }
+            if(tabuleiro[l+1][l+1].temMina == 0){
+                abrirCelula(l+1, c+1); //Diagonal inferior direita
+            }
         }
     }
 }
