@@ -178,6 +178,11 @@ int ganhou(){
 
 // Função que faz a leitura das coordenadas
 void jogo(){
+    //Criando o contador de tempo.
+    time_t seconds;
+    seconds = time(NULL);
+    int segundos;
+
     int coordenadal, coordenadac;
     do{
         exibirJogo();
@@ -245,15 +250,37 @@ void jogo(){
             printf("\n\tTá pegando fogo bicho!\n");
             break;
         }
-    } else
-        printf("\033[0;37m\n\tVocê venceu!\n"); //A mensagem de vitória será imprimida em ciano!
-        printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
-
+    } else {
+        printf("\033[0;32m\n\tVocê venceu!\n"); //A mensagem de vitória será imprimida em ciano!
+    }
+    //Variáveis para o contador.
+    segundos = time(NULL);
+    segundos = seconds-segundos;
+    segundos = segundos*-1;
+    int horas, minutos;
+    minutos = segundos/60;
+    horas = minutos/60;
+    segundos = segundos - (60*minutos);
+    //Condicionais para a formatação do texto do contador.
+    if (horas < 10 && minutos < 10 && segundos < 10){
+        printf("\n\t\tSeu tempo foi: 0%d:0%d:0%d ", horas, minutos, segundos);
+    }
+    if (horas < 10 && minutos < 10 && segundos > 10){
+        printf("\n\t\tSeu tempo foi: 0%d:0%d:%d ", horas, minutos, segundos);
+    }
+    if (horas < 10 && minutos > 10 && segundos > 10){
+        printf("\n\t\tSeu tempo foi: 0%d:%d:%d ", horas, minutos, segundos);
+    }
+    if (horas > 10 && minutos > 10 && segundos > 10){
+        printf("\n\t\tSeu tempo foi: %d:%d:%d ", horas, minutos, segundos);
+    }
+    printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
     exibirJogo();
 }
 
 int main() {
-    int ndeminas = 40, continuar;
+    int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
+    int continuar;
     do{
         iniciarTabuleiro();
         sortearMinas(ndeminas);
