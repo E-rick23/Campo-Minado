@@ -96,10 +96,33 @@ void exibirJogo(){
         }
         for(coluna = 0; coluna < 20; coluna++){
             if(tabuleiro[linha][coluna].casaLivre){
-                if(tabuleiro[linha][coluna].temMina)
-                    printf(" * ");
-                else
-                    printf(" %d ", tabuleiro[linha][coluna].proximo);
+                if(tabuleiro[linha][coluna].temMina){
+                    printf("\033[0;31m * "); //Caso o usuário entrar na casa de uma mina, ela será imprimida em vermelho.
+                } else {
+                    //Caso haja uma mina próxima, o numero 1 será imprimido em ciano na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 1){
+                        printf("\033[0;36m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    //Caso haja duas minas próximas, o numero 2 será imprimido em amarelo na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 2){
+                        printf("\033[0;33m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    //Caso haja três ou quatro minas próxima, o respectivo número será imprimido em vermelho na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 3){
+                        printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    if(tabuleiro[linha][coluna].proximo == 4){
+                        printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    //Caso não hajam minas próximas o numero 0 será imprimido em branco nas respectivas casas.
+                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4){
+                        printf(" %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    
+                }
+                /*O comando de alterar a cor do texto altera a cor não só do texto imprimido, mas de qualquer texto que venha após ele.
+                  Portanto, ao imprimir as minas reiniciaremos a cor do texto para branco com o comando abaixo*/
+                printf("\033[0;37m");
             }
             else
                 printf("   ");
