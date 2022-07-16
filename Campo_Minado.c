@@ -63,9 +63,9 @@ int quantMinasProximas(int l, int c){
         ndeMinas++;
     if(tabuleiro[l+1][c-1].temMina && casaValida(l + 1, c-1))
         ndeMinas++;
-    if(tabuleiro[l-1][c+1].temMina && casaValida(l-1, c + 1))
+    if(tabuleiro[l-1][c+1].temMina && casaValida(l - 1, c + 1))
         ndeMinas++;
-    if(tabuleiro[l][c+1].temMina && casaValida(l+1, c + 1))
+    if(tabuleiro[l+1][c+1].temMina && casaValida(l + 1, c + 1))
         ndeMinas++;
     return ndeMinas;
 }
@@ -107,19 +107,24 @@ void exibirJogo(){
                     printf("\033[0;31m * "); //Caso o usuário entrar na casa de uma mina, ela será imprimida em vermelho.
                     printf("\033[0;37m");
                 } else {
-                    //Caso haja uma mina próxima, o numero 1 será imprimido em ciano na casa adjacente.
+                    //Caso haja uma mina próxima, o número 1 será imprimido em azul na casa adjacente.
                     if(tabuleiro[linha][coluna].proximo == 1){
+                        printf("\033[0;34m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    //Caso haja duas minas próximas, o número 2 será imprimido em ciano na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 2){
                         printf("\033[0;36m %d ", tabuleiro[linha][coluna].proximo);
                     }
-                    //Caso haja duas minas próximas, o numero 2 será imprimido em amarelo na casa adjacente.
-                    if(tabuleiro[linha][coluna].proximo == 2){
+                    //Caso haja três minas próximas, o número 3 será imprimido em verde na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 3){
+                        printf("\033[0;32m %d ", tabuleiro[linha][coluna].proximo);
+                    }
+                    //Caso haja quatro minas próximas, o número 4 será imprimido em amarelo na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo == 4){
                         printf("\033[0;33m %d ", tabuleiro[linha][coluna].proximo);
                     }
-                    //Caso haja três ou quatro minas próxima, o respectivo número será imprimido em vermelho na casa adjacente.
-                    if(tabuleiro[linha][coluna].proximo == 3){
-                        printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
-                    }
-                    if(tabuleiro[linha][coluna].proximo == 4){
+                    //Caso hajam cinco ou mais minas próximas, o respectivo número será imprimido em vermelho na casa adjacente.
+                    if(tabuleiro[linha][coluna].proximo >= 5){
                         printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
                     }
                     //Caso não hajam minas próximas o numero 0 será imprimido em branco nas respectivas casas.
@@ -150,18 +155,10 @@ void abrirCelula(int l, int c){
             abrirCelula(l+1, c); //Casa abaixo
             abrirCelula(l, c+1); //Casa a direita
             abrirCelula(l, c-1); //Casa a esquerda
-            if(tabuleiro[l-1][c-1].temMina == 0){
-                abrirCelula(l-1, c-1); //Diagonal superior esquerda
-            }
-            if(tabuleiro[l-1][c+1].temMina == 0){
-                abrirCelula(l-1, c+1); //Diagonal superior direita
-            }
-            if(tabuleiro[l+1][c-1].temMina == 0){
-                abrirCelula(l+1, c-1); //Diagonal inferior esquerda
-            }
-            if(tabuleiro[l+1][l+1].temMina == 0){
-                abrirCelula(l+1, c+1); //Diagonal inferior direita
-            }
+            abrirCelula(l-1, c-1); //Diagonal superior esquerda
+            abrirCelula(l-1, c+1); //Diagonal superior direita
+            abrirCelula(l+1, c-1); //Diagonal inferior esquerda
+            abrirCelula(l+1, c+1); //Diagonal inferior direita
         }
     }
 }
