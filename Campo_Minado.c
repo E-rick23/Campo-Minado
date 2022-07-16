@@ -1,138 +1,180 @@
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct Celula{
-    int livre; //Se a casa está vazia ou não 0 ou 1
-    int bomba; //Tem bomba ou não tem 0 ou 1
-    int proximos; // 0 a 4
+    int casaLivre;
+    int temMina;
+    int proximo;
 };
 
 struct Celula tabuleiro[10][20];
+int coluna;
+int linha;
 
-int l, c;
-
-//Função que inicializa o tabuleiro do jogo
+//Função pra inicializar o tabuleiro do jogo
 void iniciarTabuleiro(){
-    for(l = 0; l < 10; l++){
-        for(c = 0; c < 20; c++){
-            tabuleiro[l][c].livre = 0;
-            tabuleiro[l][c].bomba = 0;
-            tabuleiro[l][c].proximos = 0;
+    for(linha = 0; linha < 10; linha++){
+        for(coluna = 0; coluna < 20; coluna++){
+            tabuleiro[linha][coluna].temMina = 0;
+            tabuleiro[linha][coluna].casaLivre = 0;
+            tabuleiro[linha][coluna].proximo = 0;
         }
     }
 }
 
-//Função que coloca bombas no campo aleatóriamente
-void jogabomba(int n){
-    int i;
+//Função para sortear as minas no tabuleiro
+void sortearMinas(int n){
+    int minas = 0;
     srand(time(NULL));
-    for(i = 1; i <= n; i++){
-        //Essas variáveis geram valores aleatórios, nos quais as bombas serão colocadas.
-        l = rand() % 10;
-        c = rand() % 20;
-        if(tabuleiro[l][c].bomba == 0){
-            tabuleiro[l][c].bomba = 1;
-        } else {
-            /*Caso o algoritmo coloque duas bombas no mesmo lugar esse teste reduzirá o contador em um
-              dessa forma fazendo com a bomba seja colocada em uma nova posição.*/
-            i--;
+    for(int i = 1; i <= n; i++){
+        linha = rand() % 10;
+        coluna = rand() % 20;
+        if(tabuleiro[linha][coluna].temMina == 0){
+            tabuleiro[linha][coluna].temMina = 1;
+            minas++;
         }
+        else
+            i--;
     }
 }
 
-//Função que diz se um par de coordenadas é válido ou não;
-int coordenadaValida(int l, int c) {
+//Função para definir se uma coordenada é válida ou não
+int casaValida(int l, int c){
     if(l >= 0 && l < 10 && c >= 0 && c < 20)
         return 1;
     else
         return 0;
 }
-//Função que retorna quantas bombas estão próximas
-int bombasProximas(int l, int c) {
-    int ndebombas = 0;
-    if (coordenadaValida(l-1, c) && tabuleiro[l-1][c].bomba)
-        ndebombas++;
-    if (coordenadaValida(l-1, c) && tabuleiro[l+1][c].bomba)
-        ndebombas++;
-    if (coordenadaValida(l-1, c) && tabuleiro[l][c+1].bomba)
-        ndebombas++;
-    if (coordenadaValida(l-1, c) && tabuleiro[l-1][c-1].bomba)
-        ndebombas++;
-    return ndebombas;
+
+//Função que retorna a quantidade de minas próximas
+int quantMinasVizinhas(int l, int c){
+    int ndeMinas = 0;
+    //Condicionais que encontram as minas próximas
+    if(tabuleiro[l-1][c].temMina && casaValida(l - 1, c))
+        ndeMinas++;
+    if(tabuleiro[l+1][c].temMina && casaValida(l + 1, c))
+        ndeMinas++;
+    if(tabuleiro[l][c+1].temMina && casaValida(l, c + 1))
+        ndeMinas++;
+    if(tabuleiro[l][c-1].temMina && casaValida(l, c - 1))
+        ndeMinas++;
+    return ndeMinas;
 }
-//Função que conta as bombas próximas
-void contarBombas(){
-    for(l = 0; l < 10; l++){
-        for(c = 0; c < 20; c++){
-            tabuleiro[l][c].proximos = bombasProximas(l, c);
-        }
+
+// Função que conta as minas próximas
+void contarMinas(){
+    for(linha = 0; linha < 10; linha++){
+        for(coluna = 0; coluna < 20; coluna++)
+            tabuleiro[linha][coluna].proximo = quantMinasVizinhas(linha, coluna);
     }
 }
 
-//Função que imprime o jogo
-void imprimir(){
+// Função que imprime o jogo
+void exibirJogo(){
+
     printf("\n\n\t    ");
-    for(c = 0; c < 20; c++){
-        if (c < 10)
-            printf(" %d  ",c); //Indices das colunas
-        if (c > 9)
-            printf("%d  ",c); //Indices das colunas
+    // Loop que imprime os índices das colunas
+    for(coluna = 0; coluna < 20; coluna++){
+        //Condicionais para espaçamento dos números
+        if (coluna<8){
+            printf(" %d  ", coluna+1); 
+        }
+        if (coluna >= 8){
+            printf(" %d ", coluna+1);
+        }
     }
     printf("\n\t   ---------------------------------------------------------------------------------\n");
-    for(l = 0; l < 10; l++){
-        printf("\t%d  |", l); //Indices das linhas
-        for(c = 0; c<20; c++){
-            if(tabuleiro[l][c].livre){
-                if(tabuleiro[l][c].bomba){
+    // Loop que imprime os índices das linhas
+    for(linha = 0; linha < 10; linha++){
+        //Condicionais para espaçamento dos números
+        if (linha < 9){
+            printf("\t%d  |", linha+1); 
+        }
+        if(linha == 9){
+            printf("\t%d |", linha+1); 
+        }
+        for(coluna = 0; coluna < 20; coluna++){
+            if(tabuleiro[linha][coluna].casaLivre){
+                if(tabuleiro[linha][coluna].temMina)
                     printf(" * ");
-                } else {
-                    printf(" %d ", tabuleiro[l][c].proximos);
-                }
-            } else {
-                printf("   ");
+                else
+                    printf(" %d ", tabuleiro[linha][coluna].proximo);
             }
+            else
+                printf("   ");
             printf("|");
         }
         printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
 }
 
-//Função recursiva que abre a casa nas coordenadas que o usuário digitar
-void abralapuerta(int linha, int coluna){
-    if(tabuleiro[linha][coluna].livre == 0 && coordenadaValida(linha, coluna) == 1){
-        tabuleiro[linha][coluna].livre = 1;
-        if(tabuleiro[linha][coluna].proximos == 0){
-            abralapuerta(l-1, c); //Cima
-            abralapuerta(l+1, c); //Baixo
-            abralapuerta(l, c+1); //Direita
-            abralapuerta(l, c-1); //Esquerda
-            abralapuerta(l-1, c-1); //Diagonal superior esquerda
-            abralapuerta(l-1, c+1); //Diagonal superior direita
-            abralapuerta(l+1, c-1); //Diagonal inferior esquerda
-            abralapuerta(l+1, c+1); //Diagonal inferior direita
+
+//Função que abre a célula na coordenada que o usuário digitou
+void abrirCelula(int l, int c){
+    if(tabuleiro[l][c].casaLivre == 0 && casaValida(l, c) == 1){
+        tabuleiro[l][c].casaLivre = 1;
+        //Caso as casas próximas estejam fechadas e não hajam minas próximas, o jogo também abrirá as casas adjacentes
+        if(tabuleiro[l][c].proximo == 0){
+            abrirCelula(l-1, c); //Casa acima
+            abrirCelula(l+1, c); //Casa abaixo
+            abrirCelula(l, c+1); //Casa a direita
+            abrirCelula(l, c-1); //Casa a esquerda
         }
     }
 }
 
-//Função que lê as coordenadas
-void iniciarjogo(){
+//Função que verifica se o usuário venceu
+int ganhou(){
+    int tudoAberto = 0;
+    for(linha = 0; linha < 10; linha++){
+        for(coluna = 0; coluna < 20; coluna++){
+            //Para que o usuário vença, devem haver zero minas abertas e zero casas sobrando.
+            if(tabuleiro[linha][coluna].temMina == 0 && tabuleiro[linha][coluna].casaLivre == 0)
+                tudoAberto++;
+        }
+    }
+    return tudoAberto;
+}
+
+// Função que faz a leitura das coordenadas
+void jogo(){
     int coordenadal, coordenadac;
     do{
-        printf("Digite a linha e coluna: ");
-        scanf("%d%d", &coordenadal, &coordenadac);
-        if(coordenadaValida(coordenadal, coordenadac) == 0);
-            printf("\nCoordenada Inválida!");
-    } while(coordenadaValida(coordenadal, coordenadac) == 0 || tabuleiro[coordenadal][coordenadac].livre == 1);
+        exibirJogo();
+        do{
+            printf("\nDigite a linha e coluna: ");
+            scanf("%d%d", &coordenadal, &coordenadac);
+            coordenadal = coordenadal-1;
+            coordenadac = coordenadac-1;
+            if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
+                printf("\nCasa já aberta ou inválida!");
+            }
+                
+        }while(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0);
 
-    abralapuerta(coordenadal, coordenadac);
+        abrirCelula(coordenadal, coordenadac);
+    }while(tabuleiro[coordenadal][coordenadac].temMina == 0 && ganhou() != 0);
+
+    if(tabuleiro[coordenadal][coordenadac].temMina == 1)
+        printf("\n\tVocê virou churrasco\n");
+    else
+        printf("\n\tVocê venceu!\n");
+
+    exibirJogo();
 }
-void main(){
-    int qdebomba = 40;
-    iniciarTabuleiro();
-    jogabomba(qdebomba);
-    contarBombas();
-    printf("\n\t\t\t\t\t    Campo Minado\n");
-    imprimir();
-    printf("\n");
+
+int main() {
+    int ndeminas = 40, continuar;
+    do{
+        iniciarTabuleiro();
+        sortearMinas(ndeminas);
+        contarMinas();
+        printf("\n\t\t\t\t\t   Campo Minado\n");
+        jogo();
+        printf("\nDigite 1 para recomeçar: ");
+        scanf("%d", &continuar);
+    }while(continuar == 1);
+
+    return 0;
 }
