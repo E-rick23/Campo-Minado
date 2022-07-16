@@ -73,9 +73,13 @@ void contarBombas(){
 //Função que imprime o jogo
 void imprimir(){
     printf("\n\n\t    ");
-    for(l = 0; l < 10; l++)
-        printf(" %d  ",l); //Indices das colunas
-    printf("\n\t   ---------------------------------------------\n");
+    for(c = 0; c < 20; c++){
+        if (c < 10)
+            printf(" %d  ",c); //Indices das colunas
+        if (c > 9)
+            printf("%d  ",c); //Indices das colunas
+    }
+    printf("\n\t   ---------------------------------------------------------------------------------\n");
     for(l = 0; l < 10; l++){
         printf("\t%d  |", l); //Indices das linhas
         for(c = 0; c<20; c++){
@@ -90,7 +94,7 @@ void imprimir(){
             }
             printf("|");
         }
-        printf("\n\t   ---------------------------------------------\n");
+        printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
 }
 
@@ -128,7 +132,7 @@ void main(){
     iniciarTabuleiro();
     jogabomba(qdebomba);
     contarBombas();
-    printf("\n\t\t\tCampo Minado\n");
+    printf("\n\t\t\t\t\t    Campo Minado\n");
     imprimir();
     printf("\n");
 }
