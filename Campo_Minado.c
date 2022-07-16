@@ -72,8 +72,7 @@ void contarMinas(){
 
 // Função que imprime o jogo
 void exibirJogo(){
-
-    printf("\n\n\t    ");
+    printf("\n\n\t\033[0;37m    "); //Esse printf garante que o tabuleiro será imprimido duas linhas abaixo de qualquer texto, e na cor branca.
     // Loop que imprime os índices das colunas
     for(coluna = 0; coluna < 20; coluna++){
         //Condicionais para espaçamento dos números
@@ -98,6 +97,7 @@ void exibirJogo(){
             if(tabuleiro[linha][coluna].casaLivre){
                 if(tabuleiro[linha][coluna].temMina){
                     printf("\033[0;31m * "); //Caso o usuário entrar na casa de uma mina, ela será imprimida em vermelho.
+                    printf("\033[0;37m");
                 } else {
                     //Caso haja uma mina próxima, o numero 1 será imprimido em ciano na casa adjacente.
                     if(tabuleiro[linha][coluna].proximo == 1){
@@ -118,7 +118,6 @@ void exibirJogo(){
                     if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4){
                         printf(" %d ", tabuleiro[linha][coluna].proximo);
                     }
-                    
                 }
                 /*O comando de alterar a cor do texto altera a cor não só do texto imprimido, mas de qualquer texto que venha após ele.
                   Portanto, ao imprimir as minas reiniciaremos a cor do texto para branco com o comando abaixo*/
@@ -178,11 +177,60 @@ void jogo(){
 
         abrirCelula(coordenadal, coordenadac);
     }while(tabuleiro[coordenadal][coordenadac].temMina == 0 && ganhou() != 0);
-
-    if(tabuleiro[coordenadal][coordenadac].temMina == 1)
-        printf("\n\tVocê virou churrasco\n");
-    else
-        printf("\n\tVocê venceu!\n");
+    //Caso o jogador acerte uma mina, a mensagem de derrota será imprimida em vermelho, e o tabuleiro inteiro ficará vermelho também.
+    if(tabuleiro[coordenadal][coordenadac].temMina == 1){
+        srand(time(NULL)); //Gera um valor aleatório
+        int msgAleatoria = rand()%10; //Faz com que o valor aleatório esteja entre 0 e 10
+        //Para cada um dos valores, o jogo imprimirá uma mensagem de derrota aleatória
+        switch(msgAleatoria){
+            case 0 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tUm pequeno deslize e tudo foi pelos ares... Literalmente.\n");
+            break;
+            case 1 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tVocê virou churrasco!\n");
+            break;
+            case 2 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\t Ui! Você foi explodido em pedacinhos!\n");
+            break;
+            case 3 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tNão foi uma morte nada agradável...\n");
+            break;
+            case 4 : 
+            printf("\033[0;31m\n\tChomp!\n");
+            printf("\033[0;32m\n\tBom, não era uma mina... Mas um jacaré, e você virou janta!\n");
+            break;
+            case 5 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tVocê sequer teve a chance de dizer suas ultimas palavras...\n");
+            break;
+            case 6 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tO que é esse brilho vermelho? ... É... Talvez fosse melhor não ter descoberto...\n");
+            break;
+            case 7 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tVocê olhou para o céu e se perguntou se lá havia pão... E morreu!\n");
+            break;
+            case 8 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tTalvez você devesse ter prestado mais atenção...\n");
+            break;
+            case 9 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tVocê olhou para o lado por um segundo e pisou em uma mina... Doeu bastante\n");
+            break;
+            case 10 : 
+            printf("\033[0;31m\n\tBOOM!\n");
+            printf("\n\tTá pegando fogo bicho!\n");
+            break;
+        }
+    } else
+        printf("\033[0;37m\n\tVocê venceu!\n"); //A mensagem de vitória será imprimida em ciano!
+        printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
 
     exibirJogo();
 }
