@@ -16,8 +16,8 @@ int linha;
 void iniciarTabuleiro(){
     for(linha = 0; linha < 10; linha++){
         for(coluna = 0; coluna < 20; coluna++){
-            tabuleiro[linha][coluna].temMina = 0;
             tabuleiro[linha][coluna].casaLivre = 0;
+            tabuleiro[linha][coluna].temMina = 0;
             tabuleiro[linha][coluna].proximo = 0;
         }
     }
@@ -48,7 +48,7 @@ int casaValida(int l, int c){
 }
 
 //Função que retorna a quantidade de minas próximas
-int quantMinasVizinhas(int l, int c){
+int quantMinasProximas(int l, int c){
     int ndeMinas = 0;
     //Condicionais que encontram as minas próximas
     if(tabuleiro[l-1][c].temMina && casaValida(l - 1, c))
@@ -66,7 +66,7 @@ int quantMinasVizinhas(int l, int c){
 void contarMinas(){
     for(linha = 0; linha < 10; linha++){
         for(coluna = 0; coluna < 20; coluna++)
-            tabuleiro[linha][coluna].proximo = quantMinasVizinhas(linha, coluna);
+            tabuleiro[linha][coluna].proximo = quantMinasProximas(linha, coluna);
     }
 }
 
