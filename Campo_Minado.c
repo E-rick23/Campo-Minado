@@ -280,8 +280,9 @@ void jogo(){
     void menu(){
         int opcao, end = 0;
         do{
+            printf("\n");
         printf("1 - Iniciar o jogo\n");
-        printf("2 - Instruções\n");
+        printf("2 - Tutorial\n");
         printf("3 - Sair\n");
         scanf("%d", &opcao);
         if(opcao == 1){
@@ -289,8 +290,9 @@ void jogo(){
             end = 1;
         }
         if(opcao == 2){
-            printf("Instrucoes\n");
-        }
+            printf("\n");
+            printf("Digite uma coordenada e após seu primeiro movimento, haverá números ao lado de alguns blocos — eles representam a quantidade de minas que estão por perto. \nSendo assim, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois existe uma chance maior de explodir uma mina.\nO jogo termina quando você conseguir abrir todos os blocos em que não há minas.\n");
+            }        
         if(opcao == 3){
             break;
         }
