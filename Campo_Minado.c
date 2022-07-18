@@ -309,7 +309,7 @@ int menu(){
         return 1;
 }
 
-int main() {
+void main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar;
     do{
@@ -323,7 +323,4 @@ int main() {
         printf("\nDigite 1 para recomeçar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
-    //Teste
-
-    return 0;
 }
