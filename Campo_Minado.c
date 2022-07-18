@@ -277,7 +277,25 @@ void jogo(){
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
     exibirJogo();
 }
-
+    void menu(){
+        int opcao, end = 0;
+        do{
+        printf("1 - Iniciar o jogo\n");
+        printf("2 - Instruções\n");
+        printf("3 - Sair\n");
+        scanf("%d", &opcao);
+        if(opcao == 1){
+            jogo();
+            end = 1;
+        }
+        if(opcao == 2){
+            printf("Instrucoes\n");
+        }
+        if(opcao == 3){
+            break;
+        }
+        }while(end == 0);
+    }
 int main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar;
@@ -286,7 +304,7 @@ int main() {
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        jogo();
+        menu();
         printf("\nDigite 1 para recomeçar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
