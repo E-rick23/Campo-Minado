@@ -277,7 +277,27 @@ void jogo(){
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
     exibirJogo();
 }
-
+    void menu(){
+        int opcao, end = 0;
+        do{
+            printf("\n");
+        printf("1 - Iniciar o jogo\n");
+        printf("2 - Tutorial\n");
+        printf("3 - Sair\n");
+        scanf("%d", &opcao);
+        if(opcao == 1){
+            jogo();
+            end = 1;
+        }
+        if(opcao == 2){
+            printf("\n");
+            printf("Digite uma coordenada e após seu primeiro movimento, haverá números ao lado de alguns blocos — eles representam a quantidade de minas que estão por perto. \nSendo assim, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois existe uma chance maior de explodir uma mina.\nO jogo termina quando você conseguir abrir todos os blocos em que não há minas.\n");
+            }        
+        if(opcao == 3){
+            break;
+        }
+        }while(end == 0);
+    }
 int main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar;
@@ -286,10 +306,11 @@ int main() {
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        jogo();
+        menu();
         printf("\nDigite 1 para recomeçar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
+    //Teste
 
     return 0;
 }
