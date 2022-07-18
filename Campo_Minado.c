@@ -278,8 +278,8 @@ void jogo(){
     exibirJogo();
 }
 
-void menu(){
-    int opcao, end = 0;
+int menu(){
+    int opcao, end = 0, close = 0;
     do{
         printf("\n");
         printf("1 - Iniciar o jogo\n");
@@ -296,9 +296,17 @@ void menu(){
             printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\nVocê vence se conseguir abrir todas as casas que não contém minas.\nBoa sorte!\n");
             break;
             case 3:
+            close = 1;
+            end = 1;
             break;
+            default:
+            printf("Opção inválida!\n");
         }
     }while(end == 0);
+    if (close == 1)
+        return 0;
+    else
+        return 1;
 }
 
 int main() {
@@ -309,7 +317,9 @@ int main() {
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        menu();
+        continuar = menu();
+        if(continuar == 0)
+            break;
         printf("\nDigite 1 para recomeçar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
