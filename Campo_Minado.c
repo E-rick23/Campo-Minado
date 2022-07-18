@@ -277,27 +277,30 @@ void jogo(){
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
     exibirJogo();
 }
-    void menu(){
-        int opcao, end = 0;
-        do{
-            printf("\n");
+
+void menu(){
+    int opcao, end = 0;
+    do{
+        printf("\n");
         printf("1 - Iniciar o jogo\n");
         printf("2 - Tutorial\n");
         printf("3 - Sair\n");
         scanf("%d", &opcao);
-        if(opcao == 1){
+        switch(opcao){
+            case 1 :
             jogo();
             end = 1;
-        }
-        if(opcao == 2){
+            break;
+            case 2 :
             printf("\n");
-            printf("Digite uma coordenada e após seu primeiro movimento, haverá números ao lado de alguns blocos — eles representam a quantidade de minas que estão por perto. \nSendo assim, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois existe uma chance maior de explodir uma mina.\nO jogo termina quando você conseguir abrir todos os blocos em que não há minas.\n");
-            }        
-        if(opcao == 3){
+            printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\nVocê vence se conseguir abrir todas as casas que não contém minas.\nBoa sorte!\n");
+            break;
+            case 3:
             break;
         }
-        }while(end == 0);
-    }
+    }while(end == 0);
+}
+
 int main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar;
