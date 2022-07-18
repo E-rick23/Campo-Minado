@@ -290,6 +290,7 @@ int main() {
         printf("\nDigite 1 para recomeçar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
+    //Teste
 
     return 0;
 }
