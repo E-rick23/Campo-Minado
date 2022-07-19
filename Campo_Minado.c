@@ -295,8 +295,8 @@ void jogo(){
     exibirJogo();
 }
 
-int menu(){
-    int opcao, end = 0, close = 0;
+void menu(int * close){
+    int opcao, end = 0;
     do{
         printf("\n");
         printf("1 - Iniciar o jogo\n");
@@ -313,28 +313,26 @@ int menu(){
             printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\nVocê vence se conseguir abrir todas as casas que não contém minas.\nBoa sorte!\n");
             break;
             case 3:
-            close = 1;
+            *close = 0; //O ponteiro recebe o valor de 0 para encerrar o programa
             end = 1;
             break;
             default:
             printf("Opção inválida!\n");
         }
     }while(end == 0);
-    if (close == 1)
-        return 0;
-    else
-        return 1;
 }
 
 void main() {
-    int ndeminas = 60; //Essa variável altera a quantidade de minas no tabuleiro
-    int continuar;
+    int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
+    int continuar = 1;
+    int *ptc; //Declarando um ponteiro
     do{
         iniciarTabuleiro();
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        continuar = menu();
+        menu(ptc); //A função menu recebe o ponteiro
+        continuar = *ptc; //Após a função ser executada, a variável continuar recebe o valor do ponteiro.
         if(continuar == 0)
             break;
         printf("\nDigite 1 para recomeçar ou 0 para encerrar: ");
