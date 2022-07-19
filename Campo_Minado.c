@@ -128,7 +128,7 @@ void exibirJogo(){
                         printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
                     }
                     //Caso não hajam minas próximas o numero 0 será imprimido em branco nas respectivas casas.
-                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4){
+                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4 && tabuleiro[linha][coluna].proximo != 5){
                         printf(" %d ", tabuleiro[linha][coluna].proximo);
                     }
                 }
@@ -142,7 +142,7 @@ void exibirJogo(){
         }
         printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
-    printf("\n\t   11 0 Para o cronômetro\n");
+    printf("\n\t Digite ""11 0"" para exibir o cronômetro\n");
 }
 
 
@@ -177,7 +177,7 @@ int ganhou(){
     return tudoAberto;
 }
 
-//imprimi o tempo de jogo
+//Função que imprime o tempo de jogo
 void contador(time_t sec){
    int segundos;
     //Variáveis para o contador.
@@ -190,16 +190,16 @@ void contador(time_t sec){
     segundos = segundos - (60*minutos);
     //Condicionais para a formatação do texto do contador.
     if (horas < 10 && minutos < 10 && segundos < 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:0%d ", horas, minutos, segundos);
+        printf("\n\t\tTempo de jogo: 0%d:0%d:0%d \n", horas, minutos, segundos);
     }
     if (horas < 10 && minutos < 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:%d ", horas, minutos, segundos);
+        printf("\n\t\tTempo de jogo: 0%d:0%d:%d \n", horas, minutos, segundos);
     }
     if (horas < 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:%d:%d ", horas, minutos, segundos);
+        printf("\n\t\tTempo de jogo: 0%d:%d:%d \n", horas, minutos, segundos);
     }
     if (horas > 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: %d:%d:%d ", horas, minutos, segundos);
+        printf("\n\t\tTempo de jogo: %d:%d:%d \n", horas, minutos, segundos);
     }
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
 }
@@ -216,7 +216,12 @@ void jogo(){
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
             if(coordenadal == 11 && coordenadac == 0 ){
-                contador(seconds);
+                if(start == 0){
+                    printf("O contador só é iniciado após a primeira jogada!\n");
+                } else {
+                   contador(seconds); 
+                }
+                
             }else{
             coordenadal = coordenadal-1;
             coordenadac = coordenadac-1;
@@ -322,7 +327,7 @@ int menu(){
 }
 
 void main() {
-    int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
+    int ndeminas = 60; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar;
     do{
         iniciarTabuleiro();
@@ -332,7 +337,7 @@ void main() {
         continuar = menu();
         if(continuar == 0)
             break;
-        printf("\nDigite 1 para recomeçar: ");
+        printf("\nDigite 1 para recomeçar ou 0 para encerrar: ");
         scanf("%d", &continuar);
     }while(continuar == 1);
 }
