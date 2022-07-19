@@ -207,10 +207,9 @@ void contador(time_t sec){
 void jogo(){
     //Criando o contador de tempo.
     time_t seconds;
-    seconds = time(NULL);
     int segundos;
     
-    int  coordenadal, coordenadac;
+    int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
         do{
@@ -221,7 +220,10 @@ void jogo(){
             }else{
             coordenadal = coordenadal-1;
             coordenadac = coordenadac-1;
-            
+            start ++;
+            if(start == 1){
+                seconds = time(NULL);
+            }
             if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
                 printf("\nCasa já aberta ou inválida!");
             }
