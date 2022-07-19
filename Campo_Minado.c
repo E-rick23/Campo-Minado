@@ -142,6 +142,7 @@ void exibirJogo(){
         }
         printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
+    printf("\n\t   11 0 Para o cronômetro\n");
 }
 
 
@@ -176,25 +177,57 @@ int ganhou(){
     return tudoAberto;
 }
 
+//imprimi o tempo de jogo
+void contador(time_t sec){
+   int segundos;
+    //Variáveis para o contador.
+    segundos = time(NULL);
+    segundos = sec-segundos;
+    segundos = segundos*-1;
+    int horas, minutos;
+    minutos = segundos/60;
+    horas = minutos/60;
+    segundos = segundos - (60*minutos);
+    //Condicionais para a formatação do texto do contador.
+    if (horas < 10 && minutos < 10 && segundos < 10){
+        printf("\n\t\tTempo de jogo: 0%d:0%d:0%d ", horas, minutos, segundos);
+    }
+    if (horas < 10 && minutos < 10 && segundos > 10){
+        printf("\n\t\tTempo de jogo: 0%d:0%d:%d ", horas, minutos, segundos);
+    }
+    if (horas < 10 && minutos > 10 && segundos > 10){
+        printf("\n\t\tTempo de jogo: 0%d:%d:%d ", horas, minutos, segundos);
+    }
+    if (horas > 10 && minutos > 10 && segundos > 10){
+        printf("\n\t\tTempo de jogo: %d:%d:%d ", horas, minutos, segundos);
+    }
+    printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
+}
 // Função que faz a leitura das coordenadas
 void jogo(){
     //Criando o contador de tempo.
     time_t seconds;
-    seconds = time(NULL);
     int segundos;
-
-    int coordenadal, coordenadac;
+    
+    int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
         do{
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
+            if(coordenadal == 11 && coordenadac == 0 ){
+                contador(seconds);
+            }else{
             coordenadal = coordenadal-1;
             coordenadac = coordenadac-1;
+            start ++;
+            if(start == 1){
+                seconds = time(NULL);
+            }
             if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
                 printf("\nCasa já aberta ou inválida!");
             }
-                
+            }
         }while(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0);
 
         abrirCelula(coordenadal, coordenadac);
@@ -253,28 +286,7 @@ void jogo(){
     } else {
         printf("\033[0;32m\n\tVocê venceu!\n"); //A mensagem de vitória será imprimida em ciano!
     }
-    //Variáveis para o contador.
-    segundos = time(NULL);
-    segundos = seconds-segundos;
-    segundos = segundos*-1;
-    int horas, minutos;
-    minutos = segundos/60;
-    horas = minutos/60;
-    segundos = segundos - (60*minutos);
-    //Condicionais para a formatação do texto do contador.
-    if (horas < 10 && minutos < 10 && segundos < 10){
-        printf("\n\t\tSeu tempo foi: 0%d:0%d:0%d ", horas, minutos, segundos);
-    }
-    if (horas < 10 && minutos < 10 && segundos > 10){
-        printf("\n\t\tSeu tempo foi: 0%d:0%d:%d ", horas, minutos, segundos);
-    }
-    if (horas < 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tSeu tempo foi: 0%d:%d:%d ", horas, minutos, segundos);
-    }
-    if (horas > 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tSeu tempo foi: %d:%d:%d ", horas, minutos, segundos);
-    }
-    printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
+    contador(seconds);
     exibirJogo();
 }
 
