@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+
+void *malloc(size_t numero_de_bytes);
 
 struct Celula{
     int casaLivre;
@@ -179,29 +182,33 @@ int ganhou(){
 
 //Função que imprime o tempo de jogo
 void contador(time_t sec){
-   int segundos;
+   int segundos, horas, minutos;
     //Variáveis para o contador.
     segundos = time(NULL);
     segundos = sec-segundos;
     segundos = segundos*-1;
-    int horas, minutos;
     minutos = segundos/60;
     horas = minutos/60;
     segundos = segundos - (60*minutos);
+    char *tj;
+    //Alocando memória para a string
+    tj = (char*) malloc(15);
+    strcpy(tj, "Tempo de jogo:");
     //Condicionais para a formatação do texto do contador.
     if (horas < 10 && minutos < 10 && segundos < 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:0%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:0%d:0%d \n", tj, horas, minutos, segundos);
     }
     if (horas < 10 && minutos < 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:0%d:%d \n", tj, horas, minutos, segundos);
     }
     if (horas < 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:%d:%d \n", tj, horas, minutos, segundos);
     }
     if (horas > 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: %d:%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s %d:%d:%d \n", tj, horas, minutos, segundos);
     }
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
+    free(tj); //Desalocando memória da string
 }
 // Função que faz a leitura das coordenadas
 void jogo(){
@@ -313,7 +320,7 @@ void menu(int * close){
             printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\nVocê vence se conseguir abrir todas as casas que não contém minas.\nBoa sorte!\n");
             break;
             case 3:
-            *close = 0; //O ponteiro recebe o valor de 0 para encerrar o programa
+            *close = 0;
             end = 1;
             break;
             default:
@@ -325,14 +332,14 @@ void menu(int * close){
 void main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
     int continuar = 1;
-    int *ptc; //Declarando um ponteiro
+    int *ptc;
     do{
         iniciarTabuleiro();
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        menu(ptc); //A função menu recebe o ponteiro
-        continuar = *ptc; //Após a função ser executada, a variável continuar recebe o valor do ponteiro.
+        menu(ptc);
+        continuar = *ptc;
         if(continuar == 0)
             break;
         printf("\nDigite 1 para recomeçar ou 0 para encerrar: ");
