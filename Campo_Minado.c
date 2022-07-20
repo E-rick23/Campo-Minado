@@ -131,7 +131,7 @@ void exibirJogo(){
                         printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
                     }
                     //Caso não hajam minas próximas o numero 0 será imprimido em branco nas respectivas casas.
-                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4 && tabuleiro[linha][coluna].proximo != 5){
+                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4 && tabuleiro[linha][coluna].proximo != 5 && tabuleiro[linha][coluna].proximo != 6 && tabuleiro[linha][coluna].proximo != 7 && tabuleiro[linha][coluna].proximo != 8){
                         printf(" %d ", tabuleiro[linha][coluna].proximo);
                     }
                 }
@@ -229,15 +229,15 @@ void jogo(){
                 }
                 
             }else{
-            coordenadal = coordenadal-1;
-            coordenadac = coordenadac-1;
-            start ++;
-            if(start == 1){
-                seconds = time(NULL);
-            }
-            if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
-                printf("\nCasa já aberta ou inválida!");
-            }
+                coordenadal = coordenadal-1;
+                coordenadac = coordenadac-1;
+                start++;
+                if(start == 1){
+                    seconds = time(NULL);
+                }
+                if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
+                    printf("\nCasa já aberta ou inválida!");
+                }
             }
         }while(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0);
 
@@ -303,13 +303,40 @@ void jogo(){
     contador(seconds);
 }
 
+void autobot(){
+    int l, c, start = 0;
+    time_t seconds;
+    int segundos;
+    do{
+        exibirJogo();
+        do{
+            srand(time(NULL)); //Gera um valor aleatório
+            l = 1+rand()%10;
+            c = 1+rand()%20;
+            start++;
+            if(start == 1){
+                seconds = time(NULL);
+            }
+        }while(tabuleiro[l][c].casaLivre == 1 || casaValida(l, c) == 0);
+        abrirCelula(l, c);
+    }while(tabuleiro[l][c].temMina == 0 && ganhou() != 0);
+    if(tabuleiro[l][c].temMina == 1){
+        printf("Ops, a IA não conseguiu vencer...");
+    } else {
+        printf("A IA venceu!");
+    }
+    exibirJogo();
+    contador(seconds);
+}
+
 void menu(int * close){
     int opcao, end = 0;
     do{
         printf("\n");
         printf("1 - Iniciar o jogo\n");
         printf("2 - Tutorial\n");
-        printf("3 - Sair\n");
+        printf("3 - Aleatório\n");
+        printf("4 - Sair\n");
         scanf("%d", &opcao);
         switch(opcao){
             case 1 :
@@ -321,6 +348,10 @@ void menu(int * close){
             printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\n\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\n\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\n\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\n\nVocê vence se conseguir abrir todas as casas que não contém minas.\n\nA qualquer momento digite ""11 0"" para exibir o cronômetro\n\nBoa sorte!\n");
             break;
             case 3:
+            autobot();
+            end = 1;
+            break;
+            case 4:
             *close = 0;
             end = 1;
             break;
@@ -329,6 +360,7 @@ void menu(int * close){
         }
     }while(end == 0);
 }
+
 
 void main() {
     int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
