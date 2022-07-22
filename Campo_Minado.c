@@ -145,6 +145,7 @@ void exibirJogo(){
         }
         printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
+//    printf("\n\t   11 0 cronômetro\n");
 }
 
 
@@ -218,6 +219,7 @@ void jogo(){
     int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
+            printf("\n\t   11 0 cronômetro\n");
         do{
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
