@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+
+void *malloc(size_t numero_de_bytes);
 
 struct Celula{
     int casaLivre;
@@ -128,7 +131,7 @@ void exibirJogo(){
                         printf("\033[0;31m %d ", tabuleiro[linha][coluna].proximo);
                     }
                     //Caso não hajam minas próximas o numero 0 será imprimido em branco nas respectivas casas.
-                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4 && tabuleiro[linha][coluna].proximo != 5){
+                    if(tabuleiro[linha][coluna].proximo != 1 && tabuleiro[linha][coluna].proximo != 2 && tabuleiro[linha][coluna].proximo != 3 && tabuleiro[linha][coluna].proximo != 4 && tabuleiro[linha][coluna].proximo != 5 && tabuleiro[linha][coluna].proximo != 6 && tabuleiro[linha][coluna].proximo != 7 && tabuleiro[linha][coluna].proximo != 8){
                         printf(" %d ", tabuleiro[linha][coluna].proximo);
                     }
                 }
@@ -142,7 +145,7 @@ void exibirJogo(){
         }
         printf("\n\t   ---------------------------------------------------------------------------------\n");
     }
-    printf("\n\t Digite ""11 0"" para exibir o cronômetro\n");
+//    printf("\n\t   11 0 cronômetro\n");
 }
 
 
@@ -179,29 +182,33 @@ int ganhou(){
 
 //Função que imprime o tempo de jogo
 void contador(time_t sec){
-   int segundos;
+   int segundos, horas, minutos;
     //Variáveis para o contador.
     segundos = time(NULL);
     segundos = sec-segundos;
     segundos = segundos*-1;
-    int horas, minutos;
     minutos = segundos/60;
     horas = minutos/60;
     segundos = segundos - (60*minutos);
+    char *tj;
+    //Alocando memória para a string
+    tj = (char*) malloc(15);
+    strcpy(tj, "Tempo de jogo:");
     //Condicionais para a formatação do texto do contador.
     if (horas < 10 && minutos < 10 && segundos < 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:0%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:0%d:0%d \n", tj, horas, minutos, segundos);
     }
     if (horas < 10 && minutos < 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:0%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:0%d:%d \n", tj, horas, minutos, segundos);
     }
     if (horas < 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: 0%d:%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s 0%d:%d:%d \n", tj, horas, minutos, segundos);
     }
     if (horas > 10 && minutos > 10 && segundos > 10){
-        printf("\n\t\tTempo de jogo: %d:%d:%d \n", horas, minutos, segundos);
+        printf("\n\t\t%s %d:%d:%d \n", tj, horas, minutos, segundos);
     }
     printf("\033[0;37m"); //Após isso, o texto retornará para a cor padrão
+    free(tj); //Desalocando memória da string
 }
 // Função que faz a leitura das coordenadas
 void jogo(){
@@ -212,6 +219,7 @@ void jogo(){
     int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
+            printf("\n\t   11 0 cronômetro\n");
         do{
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
@@ -223,85 +231,114 @@ void jogo(){
                 }
                 
             }else{
-            coordenadal = coordenadal-1;
-            coordenadac = coordenadac-1;
-            start ++;
-            if(start == 1){
-                seconds = time(NULL);
-            }
-            if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
-                printf("\nCasa já aberta ou inválida!");
-            }
+                coordenadal = coordenadal-1;
+                coordenadac = coordenadac-1;
+                start++;
+                if(start == 1){
+                    seconds = time(NULL);
+                }
+                if(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0){
+                    printf("\nCasa já aberta ou inválida!");
+                }
             }
         }while(tabuleiro[coordenadal][coordenadac].casaLivre == 1 || casaValida(coordenadal, coordenadac) == 0);
 
         abrirCelula(coordenadal, coordenadac);
     }while(tabuleiro[coordenadal][coordenadac].temMina == 0 && ganhou() != 0);
     //Caso o jogador acerte uma mina, a mensagem de derrota será imprimida em vermelho, e o tabuleiro inteiro ficará vermelho também.
+        char *corv, *corv2;
+        //Alocando memória para alterar as cores do texto.
+        corv = (char*) malloc(22);
+        corv2 = (char*) malloc(15);
+        strcpy(corv, "\033[0;31m\n\tBOOM!\n");
+        strcpy(corv2, "\033[0;32m\n\t");
     if(tabuleiro[coordenadal][coordenadac].temMina == 1){
         srand(time(NULL)); //Gera um valor aleatório
         int msgAleatoria = rand()%10; //Faz com que o valor aleatório esteja entre 0 e 10
         //Para cada um dos valores, o jogo imprimirá uma mensagem de derrota aleatória
         switch(msgAleatoria){
             case 0 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tUm pequeno deslize e tudo foi pelos ares... Literalmente.\n");
+            printf("%s\n\tUm pequeno deslize e tudo foi pelos ares... Literalmente.\n", corv);
             break;
             case 1 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tVocê virou churrasco!\n");
+            printf("%s\n\tVocê virou churrasco!\n", corv);
             break;
             case 2 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\t Ui! Você foi explodido em pedacinhos!\n");
+            printf("%s\n\t Ui! Você foi explodido em pedacinhos!\n", corv);
             break;
             case 3 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tNão foi uma morte nada agradável...\n");
+            printf("%s\n\tNão foi uma morte nada agradável...\n", corv);
             break;
             case 4 : 
             printf("\033[0;31m\n\tChomp!\n");
-            printf("\033[0;32m\n\tBom, não era uma mina... Mas um jacaré, e você virou janta!\n");
+            printf("%sBom, não era uma mina... Mas um jacaré, e você virou janta!\n", corv2);
             break;
             case 5 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tVocê sequer teve a chance de dizer suas ultimas palavras...\n");
+            printf("%s\n\tVocê sequer teve a chance de dizer suas ultimas palavras...\n", corv);
             break;
             case 6 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tO que é esse brilho vermelho? ... É... Talvez fosse melhor não ter descoberto...\n");
+            printf("%s\n\tO que é esse brilho vermelho? ... É... Talvez fosse melhor não ter descoberto...\n", corv);
             break;
             case 7 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tVocê olhou para o céu e se perguntou se lá havia pão... E morreu!\n");
+            printf("%s\n\tVocê olhou para o céu e se perguntou se lá havia pão... E morreu!\n", corv);
             break;
             case 8 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tTalvez você devesse ter prestado mais atenção...\n");
+            printf("%s\n\tTalvez você devesse ter prestado mais atenção...\n", corv);
             break;
-            case 9 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tVocê olhou para o lado por um segundo e pisou em uma mina... Doeu bastante\n");
+            case 9 :
+            printf("%s\n\tVocê olhou para o lado por um segundo e pisou em uma mina... Doeu bastante\n", corv);
             break;
             case 10 : 
-            printf("\033[0;31m\n\tBOOM!\n");
-            printf("\n\tTá pegando fogo bicho!\n");
+            printf("%s\n\tTá pegando fogo bicho!\n", corv);
             break;
         }
+        
     } else {
-        printf("\033[0;32m\n\tVocê venceu!\n"); //A mensagem de vitória será imprimida em ciano!
+        printf("%sVocê venceu!\n", corv2); //A mensagem de vitória será imprimida em verde!
     }
-    contador(seconds);
+    //Desalocando memória que altera as cores do texto
+    free(corv); 
+    free(corv2);
+    //Exibindo o tabuleiro
     exibirJogo();
+    //Exibindo o contador
+    contador(seconds);
 }
 
-int menu(){
-    int opcao, end = 0, close = 0;
+void autobot(){
+    int l, c, start = 0;
+    time_t seconds;
+    int segundos;
+    do{
+        exibirJogo();
+        do{
+            srand(time(NULL)); //Gera um valor aleatório
+            l = 1+rand()%10;
+            c = 1+rand()%20;
+            start++;
+            if(start == 1){
+                seconds = time(NULL);
+            }
+        }while(tabuleiro[l][c].casaLivre == 1 || casaValida(l, c) == 0);
+        abrirCelula(l, c);
+    }while(tabuleiro[l][c].temMina == 0 && ganhou() != 0);
+    if(tabuleiro[l][c].temMina == 1){
+        printf("Ops, a IA não conseguiu vencer...");
+    } else {
+        printf("A IA venceu!");
+    }
+    exibirJogo();
+    contador(seconds);
+}
+
+void menu(int * close){
+    int opcao, end = 0;
     do{
         printf("\n");
         printf("1 - Iniciar o jogo\n");
         printf("2 - Tutorial\n");
-        printf("3 - Sair\n");
+        printf("3 - Aleatório\n");
+        printf("4 - Sair\n");
         scanf("%d", &opcao);
         switch(opcao){
             case 1 :
@@ -310,31 +347,34 @@ int menu(){
             break;
             case 2 :
             printf("\n");
-            printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\nVocê vence se conseguir abrir todas as casas que não contém minas.\nBoa sorte!\n");
+            printf("Digite uma coordenada (Linha e coluna), depois que fizer isso, diversos números aparecerão, eles indicam a quantidade de minas próximas.\n\nExemplo: Caso o número 3 apareça, significa que existem 3 minas ao redor desse número, que podem estar acima, abaixo, dos lados ou nas diagonais desse número.\n\nDessa forma, não é uma boa opção tentar abrir um bloco que esteja ao lado de um número alto, pois a chance de explodir uma mina é consideravelmente maior.\n\nO jogo termina em derrota caso abra uma casa que contenha uma mina.\n\nVocê vence se conseguir abrir todas as casas que não contém minas.\n\nA qualquer momento digite ""11 0"" para exibir o cronômetro\n\nBoa sorte!\n");
             break;
             case 3:
-            close = 1;
+            autobot();
+            end = 1;
+            break;
+            case 4:
+            *close = 0;
             end = 1;
             break;
             default:
             printf("Opção inválida!\n");
         }
     }while(end == 0);
-    if (close == 1)
-        return 0;
-    else
-        return 1;
 }
 
+
 void main() {
-    int ndeminas = 60; //Essa variável altera a quantidade de minas no tabuleiro
-    int continuar;
+    int ndeminas = 40; //Essa variável altera a quantidade de minas no tabuleiro
+    int continuar = 1;
+    int *ptc;
     do{
         iniciarTabuleiro();
         sortearMinas(ndeminas);
         contarMinas();
         printf("\n\t\t\t\t\t   Campo Minado\n");
-        continuar = menu();
+        menu(ptc);
+        continuar = *ptc;
         if(continuar == 0)
             break;
         printf("\nDigite 1 para recomeçar ou 0 para encerrar: ");
