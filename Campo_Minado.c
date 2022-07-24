@@ -330,6 +330,18 @@ void autobot(){
     contador(seconds);
 }
 
+/*
+void ajuda(celula tabuleiro[10][20]){
+for(int line = 0; line < 10; line++){
+for(int column = 0; column < 20; column ++){
+if(tabuleiro[line][column].casaLivre == 1){
+    if(tabuleiro[line][column].proximo == 1){
+    1+rand()
+}}
+    
+}
+*/
+
 void menu(int * close){
     int opcao, end = 0;
     do{
