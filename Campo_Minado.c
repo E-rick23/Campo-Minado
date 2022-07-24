@@ -338,16 +338,15 @@ coorden ajuda(celula tabuleiro[10][20]){
 coorden help;
 int t = 0;
 srand(time(NULL));
-int sorteio;
+int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
 for(int column = 0; column < 20; column ++){
 if(tabuleiro[line][column].casaLivre == 1){
-    if(tabuleiro[line][column].proximo == 1){
+    if(tabuleiro[line][column].proximo <= 2){
     if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
     if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
     if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
     if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-        srand(time(NULL));
         sorteio = 1+rand()%8;
         switch(sorteio){
             case 1:
@@ -385,8 +384,29 @@ if(tabuleiro[line][column].casaLivre == 1){
             }
         t++;
     }}}}
+    }
+    if(tabuleiro[line][column].proximo >= 3){
+    if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
+    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
+    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
+    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
+        sorteio_l = 1 + rand()%10;
+        sorteio_c = 1 + rand()%20;
+            if(sorteio_l != line && sorteio_c != column){
+            if(sorteio_l != line-1 && sorteio_c != column-1){
+            if(sorteio_l != line-1 && sorteio_c != column){
+            if(sorteio_l != line-1 && sorteio_c != column+1){
+            if(sorteio_l != line && sorteio_c != column-1){
+            if(sorteio_l != line && sorteio_c != column+1){
+            if(sorteio_l != line+1 && sorteio_c != column-1){
+            if(sorteio_l != line+1 && sorteio_c != column){
+            if(sorteio_l != line+1 && sorteio_c != column+1){
+                help.lin = sorteio_l; help.col = sorteio_c;
+                return help;
+            }}}}}}}}}
         
-    }}
+    }}}}}
+}
 }}}
 */
 
