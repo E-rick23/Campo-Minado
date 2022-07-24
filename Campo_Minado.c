@@ -15,6 +15,9 @@ struct Celula tabuleiro[10][20];
 int coluna;
 int linha;
 
+typedef struct{
+    int lin, col;
+}coorden;
 //Função pra inicializar o tabuleiro do jogo
 void iniciarTabuleiro(){
     for(linha = 0; linha < 10; linha++){
@@ -331,7 +334,9 @@ void autobot(){
 }
 
 /*
-void ajuda(celula tabuleiro[10][20]){
+coorden ajuda(celula tabuleiro[10][20]){
+coorden help;
+int t = 0;
 srand(time(NULL));
 int sorteio;
 for(int line = 0; line < 10; line++){
@@ -342,36 +347,46 @@ if(tabuleiro[line][column].casaLivre == 1){
     if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
     if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
     if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-    srand(time(NULL));
-    sorteio = 1+rand()%8;
-    switch(sorteio){
-        case 1:
-        abrirCelula(linha-1, coluna-1);
-        break;
-        case 2:
-        abrirCelula(linha-1, coluna);
-        break;
-        case 3:
-        abrirCelula(linha-1, coluna+1);
-        break;
-        case 4:
-        abrirCelula(linha, coluna-1);
-        break;
-        case 5:
-        abrirCelula(linha, coluna+1);
-        break;
-        case 6:
-        abrirCelula(linha+1, coluna-1);
-        break;
-        case 7:
-        abrirCelula(linha+1, coluna);
-        break;
-        case 8:
-        abrirCelula(linha+1, coluna+1);
-        break;
-    }
-}}
+        srand(time(NULL));
+        sorteio = 1+rand()%8;
+        switch(sorteio){
+            case 1:
+            help.lin = line - 1; help.col = column - 1;
+            return help;
+            break;
+            case 2:
+            help.lin = line - 1; help.col = column;
+            return help;
+            break;
+            case 3:
+            help.lin = line - 1; help.col = column + 1;
+            return help;
+            break;
+            case 4:
+            help.lin = line; help.col = column-1;
+            return help;
+            break;
+            case 5:
+            help.lin = line; help.col = column + 1;
+            return help;
+            break;
+            case 6:
+            help.lin = line + 1; help.col = column - 1;
+            return help;
+            break;
+            case 7:
+            help.lin = line + 1; help.col = column;
+            return help;
+            break;
+            case 8:
+            help.lin = line + 1; help.col = column + 1;
+            return help;
+            break;
+            }
+        t++;
     }}}}
+        
+    }}
 }}}
 */
 
