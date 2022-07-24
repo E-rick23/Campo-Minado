@@ -332,14 +332,47 @@ void autobot(){
 
 /*
 void ajuda(celula tabuleiro[10][20]){
+srand(time(NULL));
+int sorteio;
 for(int line = 0; line < 10; line++){
 for(int column = 0; column < 20; column ++){
 if(tabuleiro[line][column].casaLivre == 1){
     if(tabuleiro[line][column].proximo == 1){
-    1+rand()
+    if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
+    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
+    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
+    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
+    srand(time(NULL));
+    sorteio = 1+rand()%8;
+    switch(sorteio){
+        case 1:
+        abrirCelula(linha-1, coluna-1);
+        break;
+        case 2:
+        abrirCelula(linha-1, coluna);
+        break;
+        case 3:
+        abrirCelula(linha-1, coluna+1);
+        break;
+        case 4:
+        abrirCelula(linha, coluna-1);
+        break;
+        case 5:
+        abrirCelula(linha, coluna+1);
+        break;
+        case 6:
+        abrirCelula(linha+1, coluna-1);
+        break;
+        case 7:
+        abrirCelula(linha+1, coluna);
+        break;
+        case 8:
+        abrirCelula(linha+1, coluna+1);
+        break;
+    }
 }}
-    
-}
+    }}}}
+}}}
 */
 
 void menu(int * close){
