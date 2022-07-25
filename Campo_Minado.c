@@ -333,98 +333,64 @@ void autobot(){
     contador(seconds);
 }
 
-/*
-coorden ajuda(celula tabuleiro[10][20]){
+
+coorden ajuda(){
 coorden help;
 int t = 0;
 srand(time(NULL));
 int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
-for(int column = 0; column < 20; column ++){
-if(tabuleiro[line][column].casaLivre == 1){
-    if(tabuleiro[line][column].proximo <= 2){
-    if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
-    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
-    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
-    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-        sorteio = 1+rand()%8;
-        switch(sorteio){
-            case 1:
-            help.lin = line - 1; help.col = column - 1;
-            return help;
-            break;
-            case 2:
-            help.lin = line - 1; help.col = column;
-            return help;
-            break;
-            case 3:
-            help.lin = line - 1; help.col = column + 1;
-            return help;
-            break;
-            case 4:
-            help.lin = line; help.col = column-1;
-            return help;
-            break;
-            case 5:
-            help.lin = line; help.col = column + 1;
-            return help;
-            break;
-            case 6:
-            help.lin = line + 1; help.col = column - 1;
-            return help;
-            break;
-            case 7:
-            help.lin = line + 1; help.col = column;
-            return help;
-            break;
-            case 8:
-            help.lin = line + 1; help.col = column + 1;
-            return help;
-            break;
-            }
-        t++;
-    }}}}
-    }
-    if(tabuleiro[line][column].proximo >= 3){
-    if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
-    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
-    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
-    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-        sorteio_l = 1 + rand()%10;
-        sorteio_c = 1 + rand()%20;
-            if(sorteio_l != line && sorteio_c != column){
-            if(sorteio_l != line-1 && sorteio_c != column-1){
-            if(sorteio_l != line-1 && sorteio_c != column){
-            if(sorteio_l != line-1 && sorteio_c != column+1){
-            if(sorteio_l != line && sorteio_c != column-1){
-            if(sorteio_l != line && sorteio_c != column+1){
-            if(sorteio_l != line+1 && sorteio_c != column-1){
-            if(sorteio_l != line+1 && sorteio_c != column){
-            if(sorteio_l != line+1 && sorteio_c != column+1){
-                help.lin = sorteio_l; help.col = sorteio_c;
-                return help;
-            }}}}}}}}}
-    }}}}}
-   if(tabuleiro[line][column].proximo == 1){
-     if(tabuleiro[line+1][column].casaLivre == 1 && tabuleiro[line-1][column].casaLivre == 0 ){
-    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
-    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
-    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-   
-}
-}}}
-
-casas(tabuleiro[][].proximo){
-     if(tabuleiro[][].proximo == 0 && tabuleiro[][+1].casaValida == 1){
-         return lin, col +1;
-     }
-     else if(tabuleiro[][].proximo == 0 && tabuleiro[+1][].casaValida == 1){
-         return lin+1, col;
-     }
-     if(){
-     2345
-}
-*/
+    for(int column = 0; column < 20; column ++){
+// for's pra percorrer o campo minado
+    if(tabuleiro[line][column].casaLivre == 1){
+  // se encontrar uma casa aberta   
+        if(tabuleiro[line][column].proximo <= 2){
+        // se a casa aberta for menor ou igual a dois faça 
+            if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
+            if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
+            if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
+            if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
+            // conjunto de if's que descobrem se as coordenadas ao redor do casa estão fechadas
+                sorteio = 1+rand()%8;
+                //switch case pra decidir qual casa abrir 
+                switch(sorteio){
+                    case 1:
+                    help.lin = line - 1; help.col = column - 1;
+                    return help;
+                    break;
+                    case 2:
+                    help.lin = line - 1; help.col = column;
+                    return help;
+                    break;
+                    case 3:
+                    help.lin = line - 1; help.col = column + 1;
+                    return help;
+                    break;
+                    case 4:
+                    help.lin = line; help.col = column-1;
+                    return help;
+                    break;
+                    case 5:
+                    help.lin = line; help.col = column + 1;
+                    return help;
+                    break;
+                    case 6:
+                    help.lin = line + 1; help.col = column - 1;
+                    return help;
+                    break;
+                    case 7:
+                    help.lin = line + 1; help.col = column;
+                    return help;
+                    break;
+                    case 8:
+                    help.lin = line + 1; help.col = column + 1;
+                    return help;
+                    break;
+                    }
+                t++;
+        }}}}
+        }}}}}
+        
 void menu(int * close){
     int opcao, end = 0;
     do{
