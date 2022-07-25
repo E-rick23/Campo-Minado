@@ -16,7 +16,8 @@ int coluna;
 int linha;
 
 typedef struct{
-    int lin, col;
+    int lin;
+    int col;
 }coorden;
 //Função pra inicializar o tabuleiro do jogo
 void iniciarTabuleiro(){
@@ -221,7 +222,8 @@ void jogo(){
     int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
-            printf("\n\t Digite ""11 0"" para ver o tempo de jogo.\n");
+            printf("\n\t Digite ""11 0"" para ver o tempo de jogo.");
+            printf("\t\t Digite ""11 1"" para ter uma dica.\n");
         do{
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
@@ -231,7 +233,15 @@ void jogo(){
                 } else {
                    contador(seconds); 
                 }
-                
+            
+            }if(coordenadal == 11 && coordenadac == 1 ){
+                 if(start == 0){
+                    printf("faça uma jogada!\n");}
+                    else {
+                        coorden ajude;
+                       /* ajude = ajuda();
+                        printf("%d %d", ajude.lin, ajude.col);*/
+                    }
             }else{
                 coordenadal = coordenadal-1;
                 coordenadac = coordenadac-1;
@@ -334,7 +344,7 @@ void autobot(){
 }
 
 
-coorden ajuda(){
+/*coorden ajuda(){
 coorden help;
 int t = 0;
 srand(time(NULL));
@@ -390,7 +400,7 @@ for(int line = 0; line < 10; line++){
                 t++;
         }}}}
         }}}}}
-        
+        */
 void menu(int * close){
     int opcao, end = 0;
     do{
