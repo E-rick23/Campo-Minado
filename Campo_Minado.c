@@ -404,12 +404,27 @@ if(tabuleiro[line][column].casaLivre == 1){
                 help.lin = sorteio_l; help.col = sorteio_c;
                 return help;
             }}}}}}}}}
-        
     }}}}}
+   if(tabuleiro[line][column].proximo == 1){
+     if(tabuleiro[line+1][column].casaLivre == 1 && tabuleiro[line-1][column].casaLivre == 0 ){
+    if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
+    if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
+    if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
+   
 }
 }}}
-*/
 
+casas(tabuleiro[][].proximo){
+     if(tabuleiro[][].proximo == 0 && tabuleiro[][+1].casaValida == 1){
+         return lin, col +1;
+     }
+     else if(tabuleiro[][].proximo == 0 && tabuleiro[+1][].casaValida == 1){
+         return lin+1, col;
+     }
+     if(){
+     2345
+}
+*/
 void menu(int * close){
     int opcao, end = 0;
     do{
