@@ -85,6 +85,63 @@ void contarMinas(){
     }
 }
 
+coorden ajuda(){
+coorden help;
+int t = 0;
+srand(time(NULL));
+int sorteio, sorteio_l, sorteio_c;
+for(int line = 0; line < 10; line++){
+    for(int column = 0; column < 20; column ++){
+// for's pra percorrer o campo minado
+    if(tabuleiro[line][column].casaLivre == 1){
+  // se encontrar uma casa aberta   
+        if(tabuleiro[line][column].proximo <= 2){
+        // se a casa aberta for menor ou igual a dois faça 
+            if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
+            if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
+            if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
+            if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
+            // conjunto de if's que descobrem se as coordenadas ao redor do casa estão fechadas
+                sorteio = 1+rand()%8;
+                //switch case pra decidir qual casa abrir 
+                switch(sorteio){
+                    case 1:
+                    help.lin = line - 1; help.col = column - 1;
+                    return help;
+                    break;
+                    case 2:
+                    help.lin = line - 1; help.col = column;
+                    return help;
+                    break;
+                    case 3:
+                    help.lin = line - 1; help.col = column + 1;
+                    return help;
+                    break;
+                    case 4:
+                    help.lin = line; help.col = column-1;
+                    return help;
+                    break;
+                    case 5:
+                    help.lin = line; help.col = column + 1;
+                    return help;
+                    break;
+                    case 6:
+                    help.lin = line + 1; help.col = column - 1;
+                    return help;
+                    break;
+                    case 7:
+                    help.lin = line + 1; help.col = column;
+                    return help;
+                    break;
+                    case 8:
+                    help.lin = line + 1; help.col = column + 1;
+                    return help;
+                    break;
+                    }
+                t++;
+        }}}}
+        }}}}}
+
 // Função que imprime o jogo
 void exibirJogo(){
     printf("\n\n\t\033[0;37m    "); //Esse printf garante que o tabuleiro será imprimido duas linhas abaixo de qualquer texto, e na cor branca.
@@ -239,8 +296,8 @@ void jogo(){
                     printf("faça uma jogada!\n");}
                     else {
                         coorden ajude;
-                       /* ajude = ajuda();
-                        printf("%d %d", ajude.lin, ajude.col);*/
+                        ajude = ajuda();
+                        printf("%d %d", ajude.lin, ajude.col);
                     }
             }else{
                 coordenadal = coordenadal-1;
@@ -342,65 +399,7 @@ void autobot(){
     exibirJogo();
     contador(seconds);
 }
-
-
-/*coorden ajuda(){
-coorden help;
-int t = 0;
-srand(time(NULL));
-int sorteio, sorteio_l, sorteio_c;
-for(int line = 0; line < 10; line++){
-    for(int column = 0; column < 20; column ++){
-// for's pra percorrer o campo minado
-    if(tabuleiro[line][column].casaLivre == 1){
-  // se encontrar uma casa aberta   
-        if(tabuleiro[line][column].proximo <= 2){
-        // se a casa aberta for menor ou igual a dois faça 
-            if(tabuleiro[line+1][column].casaLivre == 0 && tabuleiro[line-1][column].casaLivre == 0 ){
-            if(tabuleiro[line+1][column+1].casaLivre == 0 && tabuleiro[line+1][column-1].casaLivre == 0 ){
-            if(tabuleiro[line-1][column-1].casaLivre == 0 && tabuleiro[line-1][column+1].casaLivre == 0 ){
-            if(tabuleiro[line][column-1].casaLivre == 0 && tabuleiro[line][column+1].casaLivre == 0 ){
-            // conjunto de if's que descobrem se as coordenadas ao redor do casa estão fechadas
-                sorteio = 1+rand()%8;
-                //switch case pra decidir qual casa abrir 
-                switch(sorteio){
-                    case 1:
-                    help.lin = line - 1; help.col = column - 1;
-                    return help;
-                    break;
-                    case 2:
-                    help.lin = line - 1; help.col = column;
-                    return help;
-                    break;
-                    case 3:
-                    help.lin = line - 1; help.col = column + 1;
-                    return help;
-                    break;
-                    case 4:
-                    help.lin = line; help.col = column-1;
-                    return help;
-                    break;
-                    case 5:
-                    help.lin = line; help.col = column + 1;
-                    return help;
-                    break;
-                    case 6:
-                    help.lin = line + 1; help.col = column - 1;
-                    return help;
-                    break;
-                    case 7:
-                    help.lin = line + 1; help.col = column;
-                    return help;
-                    break;
-                    case 8:
-                    help.lin = line + 1; help.col = column + 1;
-                    return help;
-                    break;
-                    }
-                t++;
-        }}}}
-        }}}}}
-        */
+        
 void menu(int * close){
     int opcao, end = 0;
     do{
