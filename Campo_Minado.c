@@ -95,7 +95,7 @@ int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
     for(int column = 0; column < 20; column++){
 // for's pra percorrer o campo minado
-    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo < 3){
+    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo <= 2){
   // se encontrar uma casa aberta   
             contagem = tabuleiro[line][column].proximo;
         // se a casa aberta for menor ou igual a dois faça 
@@ -123,11 +123,43 @@ for(int line = 0; line < 10; line++){
             if(tabuleiro[line][column+1].casaLivre == 1 || casaValida(line, column+1) == 0){
                 sobra--;
             }
-            if(sobra > contagem){
+            
+            int Condicionais[8];
+            for(int zerar = 0; zerar < 8; zerar++){
+                Condicionais[zerar] = 0;
+            }
+            
+            if(tabuleiro[line+1][column].casaLivre == 1 && tabuleiro[line+1][column].proximo > 1){
+                Condicionais[0] = 1;
+            }
+            if(tabuleiro[line+1][column+1].casaLivre == 1 && tabuleiro[line+1][column+1].proximo > 1){
+                Condicionais[1] = 1;
+            }
+            if(tabuleiro[line+1][column-1].casaLivre == 1 && tabuleiro[line+1][column+1].proximo > 1){
+                Condicionais[2] = 1;
+            }
+            if(tabuleiro[line-1][column].casaLivre == 1 && tabuleiro[line-1][column].proximo > 1){
+                Condicionais[3] = 1;
+            }
+            if(tabuleiro[line-1][column-1].casaLivre == 1 && tabuleiro[line - 1][column - 1].proximo > 1){
+                Condicionais[4] = 1;
+            }
+            if(tabuleiro[line-1][column+1].casaLivre == 1 && tabuleiro[line - 1][column+1].proximo > 1){
+                Condicionais[5] = 1;
+            }
+           if(tabuleiro[line][column-1].casaLivre == 1 && tabuleiro[line][column - 1].proximo > 1){
+                Condicionais[6] = 1;
+            }
+            if(tabuleiro[line][column+1].casaLivre == 1 && tabuleiro[line][column + 1].proximo > 1){
+                Condicionais[7] = 1;
+            }
+            
+            
+            if(sobra/2 > contagem){
                 sorteio = 1+rand()%8;
                 //switch case pra decidir qual casa abrir 
                 
-                if(sorteio == 1){
+                if(sorteio == 1 && (Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0)){
                    if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
                         help.lin = line+2; help.col = column+1;
                         return help;
@@ -137,7 +169,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 2){
+                if(sorteio == 2 && (Condicionais[3] == 0 && Condicionais[4] == 0 && Condicionais[5] == 0)){
                    if(tabuleiro[line-1][column].casaLivre == 0 && casaValida(line-1, column) == 1){
                         help.lin = line; help.col = column+1;
                         return help;
@@ -147,7 +179,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 3){
+                if(sorteio == 3 && (Condicionais[1] == 0 && Condicionais[2] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line+1][column+1].casaLivre == 0 && casaValida(line+1, column+1) == 1){
                         help.lin = line + 2; help.col = column + 2;
                         return help;
@@ -157,7 +189,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 4){
+                if(sorteio == 4 && (Condicionais[1] == 0 && Condicionais[3] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line+1][column-1].casaLivre == 0 && casaValida(line+1, column-1) == 1){
                         help.lin = line + 2; help.col = column;
                         return help;
@@ -167,7 +199,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 5){
+                if(sorteio == 5 && (Condicionais[4] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
                    if(tabuleiro[line-1][column-1].casaLivre == 0 && casaValida(line-1, column-1) == 1){
                         help.lin = line; help.col = column;
                         return help;
@@ -177,7 +209,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 6){
+                if(sorteio == 6 && (Condicionais[4] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line-1][column+1].casaLivre == 0 && casaValida(line-1, column+1) == 1){
                         help.lin = line; help.col = column + 2;
                         return help;
@@ -187,7 +219,7 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 7){
+                if(sorteio == 7 && (Condicionais[3] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
                    if(tabuleiro[line][column-1].casaLivre == 0 && casaValida(line, column-1) == 1){
                         help.lin = line + 1; help.col = column;
                         return help;
@@ -197,35 +229,38 @@ for(int line = 0; line < 10; line++){
                        sorteio++;
                    }
                 }
-                if(sorteio == 8){
+                if(sorteio == 8 && (Condicionais[2] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line][column+1].casaLivre == 0 && casaValida(line, column+1) == 1){
                         help.lin = line + 1; help.col = column + 2;
                         return help;
                         break;
                    }
                    else{
+                       if(Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0){
                        if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
                         help.lin = line + 2; help.col = column + 1;
                         return help;
-                        break;
+                        break;}
                    }
                    }
                 }
-        }else{
-            help.lin = 1+rand()%10;
-            help.col = 1+rand()%20;
-            return help;
-            break;
-        }
+            }
         }
         if(line == 9 && column == 19){
-            help.lin = 1+rand()%10;
-            help.col = 1+rand()%20;
-            return help;
-            break;
-        }
-    }
-    }}
+           /* help = auxiliar();
+            return help;*/
+            int a, b, t = 0;
+                do{
+                a = 1+rand()%10;
+                b = 1+rand()%20;
+                if((casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0) && (tabuleiro[a-1][b-1].casaLivre == 0 || casaValida(a-1, b-1) == 0) && (tabuleiro[a-1][b+1].casaLivre == 0 || casaValida(a-1, b+1) == 0) && (tabuleiro[a-1][b].casaLivre == 0 || casaValida(a-1, b) == 0) && (tabuleiro[a][b+1].casaLivre == 0 || casaValida(a, b+1) == 0) && (tabuleiro[a][b - 1].casaLivre == 0 || casaValida(a, b-1) == 0) && (tabuleiro[a+1][b+1].casaLivre == 0 || casaValida(a+1, b+1) == 0) && (tabuleiro[a+1][b].casaLivre == 0 || casaValida(a+1, b) == 0) && (tabuleiro[a+1][b - 1].casaLivre == 0 || casaValida(a+1, b-1) == 0)){
+                    help.lin = a; help.col = b;
+                    t++;}
+            }while(t == 0);
+                return help;
+                break;
+            }
+    }}}
 
 
 // Função que imprime o jogo
@@ -468,7 +503,7 @@ void autobot(){
     do{
         exibirJogo();
         do{
-            sleep(2);
+           sleep(2);
            coordena = ajuda();
            l = coordena.lin;
            c = coordena.col;
