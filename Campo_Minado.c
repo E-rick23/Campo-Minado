@@ -93,11 +93,10 @@ int sobra = 8, contagem;
 srand(time(NULL));
 int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
-    for(int column = 0; column < 20; column ++){
+    for(int column = 0; column < 20; column++){
 // for's pra percorrer o campo minado
-    if(tabuleiro[line][column].casaLivre == 1){
+    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo < 3){
   // se encontrar uma casa aberta   
-        if(tabuleiro[line][column].proximo <= 3){
             contagem = tabuleiro[line][column].proximo;
         // se a casa aberta for menor ou igual a dois faça 
             if(tabuleiro[line+1][column].casaLivre == 1 || casaValida(line+1, column) == 0){
@@ -130,7 +129,7 @@ for(int line = 0; line < 10; line++){
                 
                 if(sorteio == 1){
                    if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
-                        help.lin = line + 1; help.col = column;
+                        help.lin = line+2; help.col = column+1;
                         return help;
                         break;
                    }
@@ -140,7 +139,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 2){
                    if(tabuleiro[line-1][column].casaLivre == 0 && casaValida(line-1, column) == 1){
-                        help.lin = line - 1; help.col = column;
+                        help.lin = line; help.col = column+1;
                         return help;
                         break;
                    }
@@ -150,7 +149,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 3){
                    if(tabuleiro[line+1][column+1].casaLivre == 0 && casaValida(line+1, column+1) == 1){
-                        help.lin = line + 1; help.col = column + 1;
+                        help.lin = line + 2; help.col = column + 2;
                         return help;
                         break;
                    }
@@ -160,7 +159,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 4){
                    if(tabuleiro[line+1][column-1].casaLivre == 0 && casaValida(line+1, column-1) == 1){
-                        help.lin = line + 1; help.col = column - 1;
+                        help.lin = line + 2; help.col = column;
                         return help;
                         break;
                    }
@@ -170,7 +169,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 5){
                    if(tabuleiro[line-1][column-1].casaLivre == 0 && casaValida(line-1, column-1) == 1){
-                        help.lin = line - 1; help.col = column - 1;
+                        help.lin = line; help.col = column;
                         return help;
                         break;
                    }
@@ -180,7 +179,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 6){
                    if(tabuleiro[line-1][column+1].casaLivre == 0 && casaValida(line-1, column+1) == 1){
-                        help.lin = line - 1; help.col = column + 1;
+                        help.lin = line; help.col = column + 2;
                         return help;
                         break;
                    }
@@ -190,7 +189,7 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 7){
                    if(tabuleiro[line][column-1].casaLivre == 0 && casaValida(line, column-1) == 1){
-                        help.lin = line; help.col = column - 1;
+                        help.lin = line + 1; help.col = column;
                         return help;
                         break;
                    }
@@ -200,13 +199,13 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 8){
                    if(tabuleiro[line][column+1].casaLivre == 0 && casaValida(line, column+1) == 1){
-                        help.lin = line; help.col = column + 1;
+                        help.lin = line + 1; help.col = column + 2;
                         return help;
                         break;
                    }
                    else{
                        if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
-                        help.lin = line + 1; help.col = column;
+                        help.lin = line + 2; help.col = column + 1;
                         return help;
                         break;
                    }
@@ -216,14 +215,18 @@ for(int line = 0; line < 10; line++){
             help.lin = 1+rand()%10;
             help.col = 1+rand()%20;
             return help;
+            break;
         }
-        }else{
+        }
+        if(line == 9 && column == 19){
             help.lin = 1+rand()%10;
             help.col = 1+rand()%20;
-            return help;}
+            return help;
+            break;
+        }
     }
     }}
-}
+
 
 // Função que imprime o jogo
 void exibirJogo(){
@@ -380,7 +383,7 @@ void jogo(){
                     else {
                         coorden ajude;
                         ajude = ajuda();
-                        printf("%d %d", ajude.lin+1, ajude.col+1);
+                        printf("%d %d", ajude.lin, ajude.col);
                     }
             }else{
                 coordenadal = coordenadal-1;
@@ -465,7 +468,7 @@ void autobot(){
     do{
         exibirJogo();
         do{
-            sleep(3);
+            sleep(2);
            coordena = ajuda();
            l = coordena.lin;
            c = coordena.col;
