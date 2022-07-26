@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 void *malloc(size_t numero_de_bytes);
 
@@ -460,6 +461,7 @@ void autobot(){
     coorden coordena;
     do{
         exibirJogo();
+        sleep(3);
         do{
            coordena = ajuda();
            l = coordena.lin;
