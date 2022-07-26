@@ -155,9 +155,8 @@ for(int line = 0; line < 10; line++){
             }
             
             
-            if(sobra/2 > contagem){
+            if(sobra > contagem){
                 sorteio = 1+rand()%8;
-                //switch case pra decidir qual casa abrir 
                 
                 if(sorteio == 1 && (Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0)){
                    if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
@@ -246,20 +245,22 @@ for(int line = 0; line < 10; line++){
                 }
             }
         }
-        if(line == 9 && column == 19){
+        else{if(line == 9 && column == 19){
            /* help = auxiliar();
             return help;*/
             int a, b, t = 0;
                 do{
                 a = 1+rand()%10;
                 b = 1+rand()%20;
-                if((casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0) && (tabuleiro[a-1][b-1].casaLivre == 0 || casaValida(a-1, b-1) == 0) && (tabuleiro[a-1][b+1].casaLivre == 0 || casaValida(a-1, b+1) == 0) && (tabuleiro[a-1][b].casaLivre == 0 || casaValida(a-1, b) == 0) && (tabuleiro[a][b+1].casaLivre == 0 || casaValida(a, b+1) == 0) && (tabuleiro[a][b - 1].casaLivre == 0 || casaValida(a, b-1) == 0) && (tabuleiro[a+1][b+1].casaLivre == 0 || casaValida(a+1, b+1) == 0) && (tabuleiro[a+1][b].casaLivre == 0 || casaValida(a+1, b) == 0) && (tabuleiro[a+1][b - 1].casaLivre == 0 || casaValida(a+1, b-1) == 0)){
+                if(casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0 && tabuleiro[a][b].temMina == 0){
+                //&& (tabuleiro[a-1][b-1].casaLivre == 0 || casaValida(a-1, b-1) == 0) && tabuleiro[a-1][b+1].casaLivre == 0){ 
+                /*|| casaValida(a-1, b+1) == 0) && (tabuleiro[a-1][b].casaLivre == 0 || casaValida(a-1, b) == 0) && (tabuleiro[a][b+1].casaLivre == 0 || casaValida(a, b+1) == 0) && (tabuleiro[a][b - 1].casaLivre == 0 || casaValida(a, b-1) == 0) && (tabuleiro[a+1][b+1].casaLivre == 0 || casaValida(a+1, b+1) == 0) && (tabuleiro[a+1][b].casaLivre == 0 || casaValida(a+1, b) == 0) && (tabuleiro[a+1][b - 1].casaLivre == 0 || casaValida(a+1, b-1) == 0)){*/
                     help.lin = a; help.col = b;
                     t++;}
             }while(t == 0);
                 return help;
                 break;
-            }
+            }}
     }}}
 
 
