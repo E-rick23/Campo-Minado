@@ -125,7 +125,7 @@ for(int line = 0; line < 10; line++){
                 sobra--;
             }
             if(sobra > contagem){
-                sorteio = 1+rand()%sobra;
+                sorteio = 1+rand()%8;
                 //switch case pra decidir qual casa abrir 
                 
                 if(sorteio == 1){
@@ -217,7 +217,10 @@ for(int line = 0; line < 10; line++){
             help.col = 1+rand()%20;
             return help;
         }
-        }
+        }else{
+            help.lin = 1+rand()%10;
+            help.col = 1+rand()%20;
+            return help;}
     }
     }}
 }
@@ -461,8 +464,8 @@ void autobot(){
     coorden coordena;
     do{
         exibirJogo();
-        sleep(3);
         do{
+            sleep(3);
            coordena = ajuda();
            l = coordena.lin;
            c = coordena.col;
