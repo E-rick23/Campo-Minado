@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 void *malloc(size_t numero_de_bytes);
 
@@ -15,6 +16,10 @@ struct Celula tabuleiro[10][20];
 int coluna;
 int linha;
 
+typedef struct{
+    int lin;
+    int col;
+}coorden;
 //Função pra inicializar o tabuleiro do jogo
 void iniciarTabuleiro(){
     for(linha = 0; linha < 10; linha++){
@@ -80,6 +85,192 @@ void contarMinas(){
             tabuleiro[linha][coluna].proximo = quantMinasProximas(linha, coluna);
     }
 }
+
+// Função para dar coordenadas que podem não ter bombas
+coorden ajuda(){
+coorden help;
+int sobra = 8, contagem;
+srand(time(NULL));
+int sorteio, sorteio_l, sorteio_c;
+for(int line = 0; line < 10; line++){
+    for(int column = 0; column < 20; column++){
+// for's pra percorrer o campo minado
+    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo < 2 && casaValida(line, column) == 1){
+  // se encontrar uma casa aberta   
+            contagem = tabuleiro[line][column].proximo;
+        // se a casa aberta for menor ou igual a dois faça 
+            if(tabuleiro[line+1][column].casaLivre == 1 || casaValida(line+1, column) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line-1][column].casaLivre == 1 || casaValida(line-1, column) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line+1][column+1].casaLivre == 1 || casaValida(line+1, column+1) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line+1][column-1].casaLivre == 1 || casaValida(line+1, column-1) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line-1][column-1].casaLivre == 1 || casaValida(line-1, column-1) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line-1][column+1].casaLivre == 1 || casaValida(line-1, column+1) == 0){
+                sobra--;
+            }
+           if(tabuleiro[line][column-1].casaLivre == 1 || casaValida(line, column-1) == 0){
+                sobra--;
+            }
+            if(tabuleiro[line][column+1].casaLivre == 1 || casaValida(line, column+1) == 0){
+                sobra--;
+            }
+            
+            int Condicionais[8];
+            for(int zerar = 0; zerar < 8; zerar++){
+                Condicionais[zerar] = 0;
+            }
+            
+            if(tabuleiro[line+1][column].casaLivre == 1 && tabuleiro[line+1][column].proximo > 1){
+                Condicionais[0] = 1;
+            }
+            if(tabuleiro[line+1][column+1].casaLivre == 1 && tabuleiro[line+1][column+1].proximo > 1){
+                Condicionais[1] = 1;
+            }
+            if(tabuleiro[line+1][column-1].casaLivre == 1 && tabuleiro[line+1][column+1].proximo > 1){
+                Condicionais[2] = 1;
+            }
+            if(tabuleiro[line-1][column].casaLivre == 1 && tabuleiro[line-1][column].proximo > 1){
+                Condicionais[3] = 1;
+            }
+            if(tabuleiro[line-1][column-1].casaLivre == 1 && tabuleiro[line - 1][column - 1].proximo > 1){
+                Condicionais[4] = 1;
+            }
+            if(tabuleiro[line-1][column+1].casaLivre == 1 && tabuleiro[line - 1][column+1].proximo > 1){
+                Condicionais[5] = 1;
+            }
+           if(tabuleiro[line][column-1].casaLivre == 1 && tabuleiro[line][column - 1].proximo > 1){
+                Condicionais[6] = 1;
+            }
+            if(tabuleiro[line][column+1].casaLivre == 1 && tabuleiro[line][column + 1].proximo > 1){
+                Condicionais[7] = 1;
+            }
+            
+            
+            if(sobra/2 > contagem){
+                sorteio = 1+rand()%8;
+                
+                if(sorteio == 1 && (Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0)){
+                   if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
+                        help.lin = line+1; help.col = column;
+                        //printf("-. 1");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 2 && (Condicionais[3] == 0 && Condicionais[4] == 0 && Condicionais[5] == 0)){
+                   if(tabuleiro[line-1][column].casaLivre == 0 && casaValida(line-1, column) == 1){
+                        help.lin = line-1; help.col = column;
+                        //printf("-. 2");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 3 && (Condicionais[1] == 0 && Condicionais[2] == 0 && Condicionais[8] == 0)){
+                   if(tabuleiro[line+1][column+1].casaLivre == 0 && casaValida(line+1, column+1) == 1){
+                        help.lin = line + 1; help.col = column + 1;
+                        //printf("-. 3");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 4 && (Condicionais[1] == 0 && Condicionais[3] == 0 && Condicionais[8] == 0)){
+                   if(tabuleiro[line+1][column-1].casaLivre == 0 && casaValida(line+1, column-1) == 1){
+                        //printf("-. 4");
+                        help.lin = line + 1; help.col = column - 1;
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 5 && (Condicionais[4] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
+                   if(tabuleiro[line-1][column-1].casaLivre == 0 && casaValida(line-1, column-1) == 1){
+                        help.lin = line-1; help.col = column-1;
+                        //printf("-. 5");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 6 && (Condicionais[4] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
+                   if(tabuleiro[line-1][column+1].casaLivre == 0 && casaValida(line-1, column+1) == 1){
+                        help.lin = line-1; help.col = column + 1;
+                        //printf("-. 6");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 7 && (Condicionais[3] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
+                   if(tabuleiro[line][column-1].casaLivre == 0 && casaValida(line, column-1) == 1){
+                        help.lin = line; help.col = column-1;
+                        //printf("-. 7");
+                        return help;
+                        break;
+                   }
+                   else{
+                       sorteio++;
+                   }
+                }
+                if(sorteio == 8 && (Condicionais[2] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
+                   if(tabuleiro[line][column+1].casaLivre == 0 && casaValida(line, column+1) == 1){
+                        help.lin = line; help.col = column + 1;
+                        //printf("-. 8");
+                        return help;
+                        break;
+                   }
+                   else{
+                       if(Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0){
+                       if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
+                        help.lin = line + 1; help.col = column;
+                        //printf("-. 9");
+                        return help;
+                        break;}
+                   }
+                   }
+                }
+            }
+        }
+        else{if(line == 9 && column == 19){
+            int a, b, t = 0;
+                do{
+                a = rand()%10;
+                b = rand()%20;
+                if(casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0){ 
+                    //if(tabuleiro[a][b].temMina == 0){
+                        help.lin = a; help.col = b;
+                        t++;
+                    //}
+                }
+            }while(t == 0);
+                return help;
+                break;
+            }}
+    }}}
+
 
 // Função que imprime o jogo
 void exibirJogo(){
@@ -218,7 +409,8 @@ void jogo(){
     int  coordenadal, coordenadac, start = 0;
     do{
         exibirJogo();
-            printf("\n\t Digite ""11 0"" para ver o tempo de jogo.\n");
+            printf("\n\t Digite ""11 0"" para ver o tempo de jogo.");
+            printf("\t\t Digite ""11 1"" para ter uma dica.\n");
         do{
             printf("\nDigite a linha e coluna: ");
             scanf("%d%d", &coordenadal, &coordenadac);
@@ -228,7 +420,15 @@ void jogo(){
                 } else {
                    contador(seconds); 
                 }
-                
+            
+            }if(coordenadal == 11 && coordenadac == 1 ){
+                 if(start == 0){
+                    printf("faça uma jogada!\n");}
+                    else {
+                        coorden ajude;
+                        ajude = ajuda();
+                        printf("%d %d", ajude.lin+1, ajude.col+1);
+                    }
             }else{
                 coordenadal = coordenadal-1;
                 coordenadac = coordenadac-1;
@@ -308,12 +508,14 @@ void autobot(){
     int l, c, start = 0;
     time_t seconds;
     int segundos;
+    coorden coordena;
     do{
         exibirJogo();
         do{
-            srand(time(NULL)); //Gera um valor aleatório
-            l = 1+rand()%10;
-            c = 1+rand()%20;
+           sleep(2);
+           coordena = ajuda();
+           l = coordena.lin;
+           c = coordena.col;
             start++;
             if(start == 1){
                 seconds = time(NULL);
@@ -329,7 +531,7 @@ void autobot(){
     exibirJogo();
     contador(seconds);
 }
-
+        
 void menu(int * close){
     int opcao, end = 0;
     do{
