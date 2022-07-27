@@ -123,7 +123,7 @@ for(int line = 0; line < 10; line++){
             if(tabuleiro[line][column+1].casaLivre == 1 || casaValida(line, column+1) == 0){
                 sobra--;
             }
-            printf("%d ", sobra);
+            
             int Condicionais[8];
             for(int zerar = 0; zerar < 8; zerar++){
                 Condicionais[zerar] = 0;
