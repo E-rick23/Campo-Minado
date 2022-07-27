@@ -95,7 +95,7 @@ int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
     for(int column = 0; column < 20; column++){
 // for's pra percorrer o campo minado
-    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo <= 2 && casaValida(line, column) == 1){
+    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo < 2 && casaValida(line, column) == 1){
   // se encontrar uma casa aberta   
             contagem = tabuleiro[line][column].proximo;
         // se a casa aberta for menor ou igual a dois faça 
@@ -259,9 +259,12 @@ for(int line = 0; line < 10; line++){
                 do{
                 a = rand()%10;
                 b = rand()%20;
-                if(casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0 && tabuleiro[a][b].temMina == 0){
-                    help.lin = a; help.col = b;
-                    t++;}
+                if(casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0){ 
+                    //if(tabuleiro[a][b].temMina == 0){
+                        help.lin = a; help.col = b;
+                        t++;
+                    //}
+                }
             }while(t == 0);
                 return help;
                 break;
