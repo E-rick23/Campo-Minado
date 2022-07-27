@@ -95,7 +95,7 @@ int sorteio, sorteio_l, sorteio_c;
 for(int line = 0; line < 10; line++){
     for(int column = 0; column < 20; column++){
 // for's pra percorrer o campo minado
-    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo <= 2){
+    if(tabuleiro[line][column].casaLivre == 1 && tabuleiro[line][column].proximo <= 2 && casaValida(line, column) == 1){
   // se encontrar uma casa aberta   
             contagem = tabuleiro[line][column].proximo;
         // se a casa aberta for menor ou igual a dois faça 
@@ -155,12 +155,13 @@ for(int line = 0; line < 10; line++){
             }
             
             
-            if(sobra > contagem){
+            if(sobra/2 > contagem){
                 sorteio = 1+rand()%8;
                 
                 if(sorteio == 1 && (Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0)){
                    if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
-                        help.lin = line+2; help.col = column+1;
+                        help.lin = line+1; help.col = column;
+                        //printf("-. 1");
                         return help;
                         break;
                    }
@@ -170,7 +171,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 2 && (Condicionais[3] == 0 && Condicionais[4] == 0 && Condicionais[5] == 0)){
                    if(tabuleiro[line-1][column].casaLivre == 0 && casaValida(line-1, column) == 1){
-                        help.lin = line; help.col = column+1;
+                        help.lin = line-1; help.col = column;
+                        //printf("-. 2");
                         return help;
                         break;
                    }
@@ -180,7 +182,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 3 && (Condicionais[1] == 0 && Condicionais[2] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line+1][column+1].casaLivre == 0 && casaValida(line+1, column+1) == 1){
-                        help.lin = line + 2; help.col = column + 2;
+                        help.lin = line + 1; help.col = column + 1;
+                        //printf("-. 3");
                         return help;
                         break;
                    }
@@ -190,7 +193,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 4 && (Condicionais[1] == 0 && Condicionais[3] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line+1][column-1].casaLivre == 0 && casaValida(line+1, column-1) == 1){
-                        help.lin = line + 2; help.col = column;
+                        //printf("-. 4");
+                        help.lin = line + 1; help.col = column - 1;
                         return help;
                         break;
                    }
@@ -200,7 +204,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 5 && (Condicionais[4] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
                    if(tabuleiro[line-1][column-1].casaLivre == 0 && casaValida(line-1, column-1) == 1){
-                        help.lin = line; help.col = column;
+                        help.lin = line-1; help.col = column-1;
+                        //printf("-. 5");
                         return help;
                         break;
                    }
@@ -210,7 +215,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 6 && (Condicionais[4] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line-1][column+1].casaLivre == 0 && casaValida(line-1, column+1) == 1){
-                        help.lin = line; help.col = column + 2;
+                        help.lin = line-1; help.col = column + 1;
+                        //printf("-. 6");
                         return help;
                         break;
                    }
@@ -220,7 +226,8 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 7 && (Condicionais[3] == 0 && Condicionais[5] == 0 && Condicionais[7] == 0)){
                    if(tabuleiro[line][column-1].casaLivre == 0 && casaValida(line, column-1) == 1){
-                        help.lin = line + 1; help.col = column;
+                        help.lin = line; help.col = column-1;
+                        //printf("-. 7");
                         return help;
                         break;
                    }
@@ -230,14 +237,16 @@ for(int line = 0; line < 10; line++){
                 }
                 if(sorteio == 8 && (Condicionais[2] == 0 && Condicionais[6] == 0 && Condicionais[8] == 0)){
                    if(tabuleiro[line][column+1].casaLivre == 0 && casaValida(line, column+1) == 1){
-                        help.lin = line + 1; help.col = column + 2;
+                        help.lin = line; help.col = column + 1;
+                        //printf("-. 8");
                         return help;
                         break;
                    }
                    else{
                        if(Condicionais[0] == 0 && Condicionais[1] == 0 && Condicionais[2] == 0){
                        if(tabuleiro[line+1][column].casaLivre == 0 && casaValida(line+1, column) == 1){
-                        help.lin = line + 2; help.col = column + 1;
+                        help.lin = line + 1; help.col = column;
+                        //printf("-. 9");
                         return help;
                         break;}
                    }
@@ -248,8 +257,8 @@ for(int line = 0; line < 10; line++){
         else{if(line == 9 && column == 19){
             int a, b, t = 0;
                 do{
-                a = 1+rand()%10;
-                b = 1+rand()%20;
+                a = rand()%10;
+                b = rand()%20;
                 if(casaValida(a, b) == 1 && tabuleiro[a][b].casaLivre == 0 && tabuleiro[a][b].temMina == 0){
                     help.lin = a; help.col = b;
                     t++;}
@@ -415,7 +424,7 @@ void jogo(){
                     else {
                         coorden ajude;
                         ajude = ajuda();
-                        printf("%d %d", ajude.lin, ajude.col);
+                        printf("%d %d", ajude.lin+1, ajude.col+1);
                     }
             }else{
                 coordenadal = coordenadal-1;
